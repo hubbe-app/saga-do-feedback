@@ -40,27 +40,26 @@ export type ActionCallback = () => void;
 export type AxisCallback = (index: number, value: number) => void;
 
 export enum ActionName {
-   Confirm,
-   Cancel,
-   MoveUp,
-   MoveDown,
-   MoveLeft,
-   MoveRight,
-   Jump,
-   Run,
-   Attack,
-   Block,
-   Interact,
-   Pause,
-   Inventory,
-   Map,
-   SpecialMove1,
-   SpecialMove2,
-   SpecialMove3,
-   Option1,
-   Option2,
-   Option3
-   // Add other common actions as needed
+   Confirm = "Confirm",
+   Cancel = "Cancel",
+   MoveUp = "MoveUp",
+   MoveDown = "MoveDown",
+   MoveLeft = "MoveLeft",
+   MoveRight = "MoveRight",
+   Jump = "Jump",
+   Run = "Run",
+   Attack = "Attack",
+   Block = "Block",
+   Interact = "Interact",
+   Pause = "Pause",
+   Inventory = "Inventory",
+   Map = "Map",
+   SpecialMove1 = "SpecialMove1",
+   SpecialMove2 = "SpecialMove2",
+   SpecialMove3 = "SpecialMove3",
+   Option1 = "Option1",
+   Option2 = "Option2",
+   Option3 = "Option3",
 }
 
 class GamepadHandler {
@@ -129,6 +128,7 @@ class GamepadHandler {
 }
 
 export class InputMapper {
+   
    private keyActionMap: Map<string, ActionName>;
    private buttonActionMap: Map<number, ActionName>;
    private actionCallbacks: Map<ActionName, ActionCallback>;
@@ -136,6 +136,7 @@ export class InputMapper {
    private gamepadHandler: GamepadHandler;
 
    constructor(private window: Window) {
+   
       this.keyActionMap = new Map();
       this.buttonActionMap = new Map();
       this.axisCallbacks = new Map();
@@ -173,21 +174,16 @@ export class InputMapper {
    }
 
    public loadConfiguration(config: InputMapperConfig): void {
-      
-      for (const action in Object.keys(config.actions)) {
-         
-         const actionName = action as unknown as ActionName;
-         const keyMappings = config.actions[actionName].keyboard;
-         const buttonMappings = config.actions[actionName].gamepad;
-
-         keyMappings.forEach((key: string) => this.mapKeyToAction(key, actionName));
-         buttonMappings.forEach((buttonIndex: number) => this.mapButtonToAction(buttonIndex, actionName));
-      }
-
+      Object.keys(config.actions).forEach((action) => {
+         const actionName = action as ActionName;
+         const keyMappings = config.actions[actionName]?.keyboard;
+         const buttonMappings = config.actions[actionName]?.gamepad;
+         keyMappings?.forEach((key: string) => this.mapKeyToAction(key, actionName));
+         buttonMappings?.forEach((buttonIndex: number) => this.mapButtonToAction(buttonIndex, actionName));
+      });
    }
 
    private handleKeyInput(event: KeyboardEvent): void {
-      
       const action = this.keyActionMap.get(event.code);
       if (action !== undefined) {
          this.triggerAction(action);
@@ -209,14 +205,11 @@ export class InputMapper {
    }
 
    private triggerAction(action: ActionName): void {
-      const callback = this.actionCallbacks.get(action);
-      if (callback) {
-         callback();
-      }
+      this.actionCallbacks.get(action)?.();
    }
 }
 
-type InputMapperConfig = {
+export type InputMapperConfig = {
    actions: {
       [action in ActionName]: {
          keyboard: string[];

@@ -12,7 +12,11 @@ export default function Home() {
     setCount((c) => c + 1);
   });
 
+  useActionEffect(ActionName.MoveDown, () => {
+    setCount((c) => c - 1);
+  });
+
   return <>
-    <button>Blah { count } </button>
+    <div>Counter: {count}</div>
   </>
 }

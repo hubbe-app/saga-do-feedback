@@ -4,11 +4,11 @@ declare var window: Window;
 
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { ActionCallback, ActionName, AxisCallback, InputMapper } from './gamepad';
+import { ActionCallback, ActionName, AxisCallback, InputMapper, InputMapperConfig } from './gamepad';
 
 const inputMapper = new InputMapper(window);
 
-export const actionMap: any = {
+export const actionMap: InputMapperConfig = {
    "actions": {
       [ActionName.Confirm]: {
          "keyboard": ["Enter", "Space"],
@@ -80,15 +80,15 @@ export const actionMap: any = {
       },
       [ActionName.Option1]: {
          "keyboard": ["4"],
-         "gamepad": [13]
+         "gamepad": []
       },
       [ActionName.Option2]: {
          "keyboard": ["5"],
-         "gamepad": [14]
+         "gamepad": []
       },
       [ActionName.Option3]: {
          "keyboard": ["6"],
-         "gamepad": [15]
+         "gamepad": []
       }
    }
 }
@@ -180,7 +180,7 @@ export const useActionEffect = (action: ActionName, callback: ActionCallback) =>
    useEffect(() => {
       inputMapper.setActionCallback(action, callback);
       return () => inputMapper.removeActionCallback(action);
-   }, []);
+   }, [action]);
 }
 
 export const useAxisEffect = (axis: number[], callback: AxisCallback) => {
