@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { Jakarta } from '@/libs/fonts';
-
+import { GameProvider } from '@/context/gameContext';
 
 export const metadata: Metadata = {
   title: 'Saga do Feedback',
@@ -15,7 +15,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={Jakarta.className}>{children}</body>
+      <GameProvider>
+        <body className={`${Jakarta.className} w-screen h-screen`} >{children}</body>
+      </GameProvider>
     </html>
   );
 }
