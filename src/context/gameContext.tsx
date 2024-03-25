@@ -12,6 +12,8 @@ type GameContextType = {
   nextTurn: () => void;
   playerData: PlayerDataType;
   setPlayerData: (e: PlayerDataType) => void;
+  timeOver: boolean;
+  setTimeOver: (e: boolean) => void;
 };
 
 export const GameContext = createContext<GameContextType | null>(null);
@@ -35,6 +37,7 @@ type PlayerDataType = {
 export const GameProvider = ({ children }: GameProviderProps) => {
   const [step, setStep] = useState(2);
   const [canContinue, setCanContinue] = useState(false);
+  const [timeOver, setTimeOver] = useState(false);
   const [playerData, setPlayerData] = useState<PlayerDataType>({
     name: 'Vinícius',
     score: '',
@@ -42,7 +45,7 @@ export const GameProvider = ({ children }: GameProviderProps) => {
     adrenaline: [],
     time: '',
     playerAvatar: '',
-    cpuAvatar: '',
+    cpuAvatar: 'Márcia',
     role: 'employee',
     turn: 'firstTurn',
   });
@@ -71,6 +74,8 @@ export const GameProvider = ({ children }: GameProviderProps) => {
         nextTurn,
         playerData,
         setPlayerData,
+        timeOver,
+        setTimeOver,
       }}
     >
       {children}
