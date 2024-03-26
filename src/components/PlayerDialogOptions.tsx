@@ -2,7 +2,7 @@
 import { useGameContext } from '@/context/gameContext';
 import PlayerDialogBallon from './PlayerDialogBallon';
 import { Rounded } from '@/libs/fonts';
-import { Option } from '@/libs/gameData';
+import { Option } from "@/types/types";
 import { DialogBallon } from '.';
 
 type PlayerDialogOptionsProps = {
@@ -15,8 +15,17 @@ export const PlayerDialogOptions = ({ options, cpuQuestion }: PlayerDialogOption
 
   return (
     <>
-      <div className='opacity-60 scale-75 h-full'>
-        <DialogBallon cpuName={playerData.turn === 'firstTurn' ? '' : playerData.cpuAvatar } content={cpuQuestion as string} />
+    <div className='absolute right-0 bottom-0 '>
+      <img src={playerData.playerCharacter.fullBodyOn} alt="character" />
+    </div>
+    <div className='absolute left-0 bottom-0 '>
+      <img src={playerData.cpuCharacter.fullBody} alt="character" />
+    </div>
+      <div className='flex justify-center opacity-60 scale-75 h-full'>
+        <DialogBallon
+          cpuName={playerData.turn === 'firstTurn' ? '' : playerData.cpuCharacter.name}
+          content={cpuQuestion as string}
+        />
       </div>
 
       <div className={`flex flex-col w-full justify-center items-center gap-4 mb-32`}>

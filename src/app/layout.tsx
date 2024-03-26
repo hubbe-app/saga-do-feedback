@@ -16,7 +16,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <GameProvider>
-        <body className={`${Jakarta.className} absolute inset-0`} >{children}</body>
+        <body className={`${Jakarta.className} absolute w-screen h-screen`} >{children}</body>
       </GameProvider>
     </html>
   );

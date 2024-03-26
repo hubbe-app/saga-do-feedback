@@ -1,9 +1,18 @@
+/* eslint-disable @next/next/no-img-element */
+import { useGameContext } from '@/context/gameContext';
+import { powerUps } from '@/libs/gameData';
+import { PowerUpType } from "@/types/types";
 import { useEffect, useState } from 'react';
 
 export const PowerUp = () => {
-  const [isVisible, setIsVisible] = useState(true);
-  const [position, setPosition] = useState('0px');
-  const [powerUpButton, setPowerUpButton] = useState<ButtonOptionsType>({ button: 'A', bgColor: 'bg-green-700' });
+  const [position, setPosition] = useState({
+    startingPositionX: '0px',
+    startingPositionY: '0px',
+    direction: 'slide-right',
+  });
+  const [powerUp, setPowerUp] = useState<PowerUpType>();
+  const [powerUpButton, setPowerUpButton] = useState<ButtonOptionsType>({ button: 'B', bgColor: 'bg-red-600' });
+  const { sendPowerUp, setSendPowerUp, playerData, setPlayerData } = useGameContext();
 
   type ButtonOptionsType = {
     button: string;
@@ -11,36 +20,72 @@ export const PowerUp = () => {
   };
 
   useEffect(() => {
+    if (!sendPowerUp) {
+      return;
+    }
+
+    setPowerUp(powerUps[Math.floor(powerUps.length * Math.random())]);
+
     const buttonOptions = [
-      { button: 'X', bgColor: 'bg-blue-600' },
-      { button: 'Y', bgColor: 'bg-yellow-600' },
-      { button: 'B', bgColor: 'bg-red-600' },
-      { button: 'A', bgColor: 'bg-green-600' },
+      { button: 'X', bgColor: '#1E88E5' },
+      { button: 'Y', bgColor: '#FFCF00' },
+      { button: 'B', bgColor: '#E53935' },
     ];
-    setPosition(`${Math.random() * 80}vh`);
-    setPowerUpButton(buttonOptions[Math.floor(Math.random() * 4)]);
-  }, []);
+    const animation = ['slide-up', 'slide-down', 'slide-left', 'slide-right'];
+
+    const randomDirection = animation[Math.floor(Math.random() * animation.length)];
+    let startingPositionY = `${Math.random() * 70 + 15}%`;
+    let startingPositionX = `${Math.random() * 70 + 15}%`;
+    if (randomDirection === 'slide-right') {
+      startingPositionX = '0';
+    } else if (randomDirection === 'slide-left') {
+      startingPositionX = '100%';
+    } else if (randomDirection === 'slide-down') {
+      startingPositionY = '0';
+    } else if (randomDirection === 'slide-up') {
+      startingPositionY = '100%';
+    }
+
+    setPosition({
+      startingPositionY: `${startingPositionY}`,
+      startingPositionX: `${startingPositionX}`,
+      direction: randomDirection,
+    });
+
+    setPowerUpButton(buttonOptions[Math.floor(Math.random() * buttonOptions.length)]);
+  }, [sendPowerUp]);
 
   const handleClick = () => {
-    setIsVisible(false);
+    const receiver = playerData;
+    receiver.adrenaline.push(powerUp?.adrenaline as number);
+    receiver.engagement.push(powerUp?.engagement as number);
+    setPlayerData(receiver);
+    setSendPowerUp(false);
   };
 
-  if (!isVisible) {
-    return null;
-  }
-
   return (
-    <div
-      style={{ top: position }}
-      onAnimationEnd={() => setIsVisible(false)}
-      className='absolute flex flex-col items-center w-full overflow-hidden animate-slide-right'
-    >
-      <div className='rounded-full w-36 h-36 border-8 animate-pulse'>
-        <img src='/logo-hubbe-png.png' className=' ' alt='Imagem' />
-      </div>
-      <button onClick={handleClick} className={`${powerUpButton.bgColor} animate-bounce mt-2 px-4 py-2 text-white font-extrabold text-xl rounded-full`}>
-        {powerUpButton.button}
-      </button>
-    </div>
+    <>
+      {sendPowerUp && (
+        <div
+          style={{ top: position.startingPositionY, left: position.startingPositionX }}
+          onAnimationEnd={() => setSendPowerUp(false)}
+          className={`absolute z-50 flex flex-col items-center bg-yell overflow-hidden animate-${position.direction}`}
+        >
+          <div
+          style={{borderColor:powerUpButton.bgColor, }}
+            className={`flex justify-center items-center rounded-full w-40 h-40 border-8 animate-pulse`}
+          >
+            <img src={powerUp && powerUp.img} className='max-h-32' alt='Imagem' />
+          </div>
+          <button
+          style={{backgroundColor:powerUpButton.bgColor}}
+            onClick={handleClick}
+            className={`animate-bounce mt-2 px-4 py-2 text-white font-extrabold text-xl rounded-full`}
+          >
+            {powerUpButton.button}
+          </button>
+        </div>
+      )}
+    </>
   );
 };

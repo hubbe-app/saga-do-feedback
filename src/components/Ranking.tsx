@@ -1,21 +1,15 @@
+'use client';
+
+import { RankingType } from '@/types/types';
 import { RankingItem } from '.';
+import { useEffect, useState } from 'react';
 
 export const Ranking = () => {
-  const rankingData = [
-    { name: 'joão da silva', score: '50', time: '2:25' },
-    { name: 'joão da silva pr', score: '50', time: '2:50' },
-    { name: 'joão da silva', score: '20', time: '2:00' },
-    { name: 'joão da silva', score: '33', time: '2:25' },
-    { name: 'joão da silva', score: '35', time: '2:25' },
-    { name: 'joão da silva', score: '32', time: '2:25' },
-    { name: 'joão da silva', score: '32', time: '2:25' },
-    { name: 'joão da silva', score: '32', time: '2:25' },
-    { name: 'joão da silva', score: '32', time: '2:25' },
-    { name: 'joão da silva', score: '20', time: '2:25' },
-    { name: 'joão da silva', score: '34', time: '2:25' },
-    { name: 'joão da silva', score: '44', time: '2:25' },
-    { name: 'joão da silva', score: '47', time: '2:25' },
-  ];
+  const [rankingData, setRankingData] = useState<RankingType[]>([]);
+
+  useEffect(() => {
+    setRankingData(JSON.parse(localStorage.getItem('rankingList') || '[]'));
+  }, []);
 
   const sortedRanking = rankingData
     .sort((a, b) => {

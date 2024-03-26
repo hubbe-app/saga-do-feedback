@@ -5,7 +5,6 @@ import { useGameContext } from '@/context/gameContext';
 import { average } from '@/libs/avarege';
 import { Rounded } from '@/libs/fonts';
 import {
-  Option,
   TurnsType,
   backgrounds,
   employeeGame,
@@ -14,22 +13,25 @@ import {
   employerStartingPhrase,
   turns,
 } from '@/libs/gameData';
+import { Option } from "@/types/types";
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 const BattleScreen = () => {
-  const { playerData, timeOver } = useGameContext();
+  const { playerData, timeOver, setSendPowerUp, isOptionsVisible, setIsOptionsVisible } = useGameContext();
   const [selectedBackground, setSelectedBackground] = useState('');
   const [cpuChoice, setCpuChoice] = useState<Option>();
-  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     setSelectedBackground(backgrounds[Math.floor(Math.random() * backgrounds.length)]);
   }, []);
 
   useEffect(() => {
+    if (playerData.turn === 'conclusion') {
+      return;
+    }
     const timer = setTimeout(() => {
-      setIsVisible(true);
+      setIsOptionsVisible(true);
     }, 3000);
 
     return () => clearTimeout(timer);
@@ -42,8 +44,17 @@ const BattleScreen = () => {
   const findNextQuestion = () => {
     const averageEngagement = average({ values: playerData.engagement });
     const averageAdrenaline = average({ values: playerData.adrenaline });
-
+    console.log(playerData.adrenaline);
+    console.log(playerData.engagement);
     console.log({ averageAdrenaline, averageEngagement });
+
+    if (playerData.turn === 'thirdTurn' || playerData.turn === 'fourthTurn' || playerData.turn === 'fifthTurn') {
+      const luckyNum = Math.random() * 10;
+
+      if (luckyNum > 7) {
+        setSendPowerUp(true);
+      }
+    }
 
     let options: Option[] | undefined = [];
 
@@ -104,22 +115,35 @@ const BattleScreen = () => {
           {playerData.role === 'employee' ? (
             <main className='flex flex-col min-h-full flex-grow justify-start items-center pt-8'>
               {playerData.turn === 'firstTurn' && (
-                <div className={`${!isVisible ? 'transition-opacity duration-500 opacity-100' : 'opacity-0'} w-full`}>
+                <div
+                  className={`${
+                    !isOptionsVisible ? 'transition-opacity duration-500 opacity-100' : 'opacity-0 hidden'
+                  } w-full`}
+                >
                   <DialogBallon content={employeeStartingPhrase} />
                 </div>
               )}
               {playerData.turn && employeeGame[playerData.turn] && 'employer' in employeeGame[playerData.turn] && (
-                <div className={`${!isVisible ? 'transition-opacity duration-500 opacity-100' : 'opacity-0'} w-full`}>
-                  <DialogBallon cpuName={playerData.cpuAvatar} content={cpuChoice?.dialog as string} />
+                <div
+                  className={`${
+                    !isOptionsVisible ? 'transition-opacity duration-500 opacity-100' : 'opacity-0 hidden'
+                  } w-full h-full flex justify-center`}
+                >
+                  <div className='absolute right-0 bottom-0 '>
+                    <img src={playerData.playerCharacter.fullBody} alt='character' />
+                  </div>
+                  <div className='absolute left-0 bottom-0 '>
+                    <img src={playerData.cpuCharacter.fullBodyOn} alt='character' />
+                  </div>
+                  <DialogBallon cpuName={playerData.cpuCharacter.name} content={cpuChoice?.dialog as string} />
                 </div>
               )}
               {employeeGame[playerData.turn] &&
                 'employee' in employeeGame[playerData.turn] &&
                 playerData.time !== '0:00' && (
                   <div
-                    onClick={() => setIsVisible(false)}
                     className={` ${
-                      isVisible ? 'transition-opacity duration-500 opacity-100' : 'opacity-0'
+                      isOptionsVisible ? 'transition-opacity duration-500 opacity-100' : 'opacity-0'
                     }  flex justify-center w-full h-full flex-col flex-grow`}
                   >
                     <PlayerDialogOptions

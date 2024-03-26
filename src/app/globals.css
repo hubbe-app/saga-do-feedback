@@ -4,11 +4,38 @@
 
 
 @keyframes slideRight {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-  }
-  
-  .animate-slide-right {
-    animation: slideRight 8s linear;
-  }
-  
+  0% { transform: translateX(-100vw); }
+  100% { transform: translateX(100vw); }
+}
+
+@keyframes slideLeft {
+  0% { transform: translateX(100vw); }
+  100% { transform: translateX(-100vw); }
+}
+
+@keyframes slideDown {
+  0% { transform: translateY(-100vh); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes slideUp {
+  0% { transform: translateY(100vh); }
+  100% { transform: translateY(-100vh); }
+}
+
+
+.animate-slide-right {
+  animation: slideRight 8s linear;
+}
+
+.animate-slide-left {
+  animation: slideLeft 8s linear;
+}
+
+.animate-slide-down {
+  animation: slideDown 8s linear;
+}
+
+.animate-slide-up {
+  animation: slideUp 8s linear;
+}

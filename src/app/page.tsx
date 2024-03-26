@@ -13,9 +13,7 @@ export default function Home() {
 
   return (
     <>
-      {step === 0 && <Intro />}
-      {step === 1 && <MainScreen />}
-      {step === 2 && <BattleScreen />}
+      <Intro />
     </>
   );
 }

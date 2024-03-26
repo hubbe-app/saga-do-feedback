@@ -1,6 +1,10 @@
+'use client';
+
 import { FormEvent, useState } from 'react';
 import { DefaultButton } from '.';
 import { PhoneInput } from './PhoneInput';
+import { useGameContext } from '@/context/gameContext';
+import { useRouter } from 'next/navigation';
 
 type FormData = {
   nome: string;
@@ -17,6 +21,8 @@ export const RegisterForm = () => {
     telefone: '',
     empresa: '',
   });
+  const { playerData, setPlayerData } = useGameContext();
+  const router = useRouter();
 
   const toggleCheckbox = (e: React.MouseEvent<HTMLLabelElement, MouseEvent>) => {
     if ((e.target as HTMLElement).tagName !== 'INPUT') {
@@ -46,19 +52,17 @@ export const RegisterForm = () => {
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
+    setPlayerData({ ...playerData, name: formData.nome });
+    console.log(playerData);
+    console.log(formData.nome);
+
     const userList = JSON.parse(localStorage.getItem('users') || '[]') as FormData[];
 
-    const existingUserIndex = userList.findIndex((user) => user.email === formData?.email);
+    userList.push(formData);
 
-    if (existingUserIndex === -1) {
-      userList.push(formData);
+    localStorage.setItem('users', JSON.stringify(userList));
 
-      localStorage.setItem('users', JSON.stringify(userList));
-
-      console.log('Usuário adicionado com sucesso');
-    } else {
-      console.log('Usuário já cadastrado');
-    }
+    router.push('/battleScreen');
   };
 
   return (
