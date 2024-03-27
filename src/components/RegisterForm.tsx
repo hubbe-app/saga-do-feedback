@@ -53,9 +53,7 @@ export const RegisterForm = () => {
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
     setPlayerData({ ...playerData, name: formData.nome });
-    console.log(playerData);
-    console.log(formData.nome);
-
+  
     const userList = JSON.parse(localStorage.getItem('users') || '[]') as FormData[];
 
     userList.push(formData);

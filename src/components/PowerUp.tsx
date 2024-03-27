@@ -1,7 +1,6 @@
-/* eslint-disable @next/next/no-img-element */
 import { useGameContext } from '@/context/gameContext';
 import { powerUps } from '@/libs/gameData';
-import { PowerUpType } from "@/types/types";
+import { PowerUpType } from '@/types/types';
 import { useEffect, useState } from 'react';
 
 export const PowerUp = () => {
@@ -18,6 +17,21 @@ export const PowerUp = () => {
     button: string;
     bgColor: string;
   };
+
+  useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (event.key.toUpperCase() === powerUpButton.button) {
+        handleClick();
+      }
+    };
+  
+    window.addEventListener('keydown', handleKeyPress);
+  
+    return () => {
+      window.removeEventListener('keydown', handleKeyPress);
+    };
+  }, [powerUpButton.button]);
+  
 
   useEffect(() => {
     if (!sendPowerUp) {
@@ -55,10 +69,20 @@ export const PowerUp = () => {
     setPowerUpButton(buttonOptions[Math.floor(Math.random() * buttonOptions.length)]);
   }, [sendPowerUp]);
 
+  const handleKeyPress = (event:React.KeyboardEvent<HTMLButtonElement>) => {
+    
+    if (event.key.toUpperCase() === powerUpButton.button) {
+      handleClick();
+    }
+  };
+
   const handleClick = () => {
-    const receiver = playerData;
-    receiver.adrenaline.push(powerUp?.adrenaline as number);
-    receiver.engagement.push(powerUp?.engagement as number);
+    const receiver = {
+      ...playerData,
+      adrenaline: [...playerData.adrenaline, powerUp?.adrenaline as number],
+      engagement: [...playerData.engagement, powerUp?.engagement as number],
+    };
+    
     setPlayerData(receiver);
     setSendPowerUp(false);
   };
@@ -72,14 +96,15 @@ export const PowerUp = () => {
           className={`absolute z-50 flex flex-col items-center bg-yell overflow-hidden animate-${position.direction}`}
         >
           <div
-          style={{borderColor:powerUpButton.bgColor, }}
+            style={{ borderColor: powerUpButton.bgColor }}
             className={`flex justify-center items-center rounded-full w-40 h-40 border-8 animate-pulse`}
           >
             <img src={powerUp && powerUp.img} className='max-h-32' alt='Imagem' />
           </div>
           <button
-          style={{backgroundColor:powerUpButton.bgColor}}
+            style={{ backgroundColor: powerUpButton.bgColor }}
             onClick={handleClick}
+            onKeyDown={handleKeyPress}
             className={`animate-bounce mt-2 px-4 py-2 text-white font-extrabold text-xl rounded-full`}
           >
             {powerUpButton.button}

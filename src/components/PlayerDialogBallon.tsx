@@ -2,15 +2,17 @@
 
 import { useGameContext } from '@/context/gameContext';
 import { Rounded } from '@/libs/fonts';
-import { Option } from "@/types/types";
+import { Option } from '@/types/types';
 
 const PlayerDialogBallon = ({ dialog, adrenaline, engagement }: Option) => {
   const { playerData, setPlayerData, nextTurn, setIsOptionsVisible } = useGameContext();
 
   const clickHandler = () => {
+    
     const receiver = playerData;
     receiver.adrenaline = [...playerData.adrenaline, adrenaline];
     receiver.engagement = [...playerData.engagement, engagement];
+
     setPlayerData(receiver);
     nextTurn();
     setIsOptionsVisible(false);

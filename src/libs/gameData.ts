@@ -174,18 +174,18 @@ export const employeeGame: GameType = {
     employer: [
       {
         dialog: 'Gestor acompanha desenvolvimento do colaborador!',
-        adrenaline: 5 + randomResult,
-        engagement: 0 + randomResult,
+        adrenaline: 5,
+        engagement: 5,
       },
       {
         dialog: 'Gestor demite colaborador!',
-        adrenaline: 10 + randomResult,
-        engagement: 0 + randomResult,
+        adrenaline: 10,
+        engagement: 0,
       },
       {
         dialog: 'Gestor promove colaborador!',
-        adrenaline: 0 + randomResult,
-        engagement: 10 + randomResult,
+        adrenaline: 0,
+        engagement: 10,
       },
     ],
   },
@@ -349,18 +349,18 @@ export const employerGame: GameType = {
     employee: [
       {
         dialog: 'Colaborador elaborou um novo processo para otimização de tempo dos projetos!',
-        adrenaline: 3 + randomResult,
-        engagement: 7 + randomResult,
+        adrenaline: 0,
+        engagement: 10,
       },
       {
         dialog: 'Colaborador pede troca de setor de trabalho!',
-        adrenaline: 8 + randomResult,
-        engagement: 4 + randomResult,
+        adrenaline: 5,
+        engagement: 5,
       },
       {
         dialog: 'Colaborador pede demissão!',
-        adrenaline: 10 + randomResult,
-        engagement: 5 + randomResult,
+        adrenaline: 10,
+        engagement: 0,
       },
     ],
   },

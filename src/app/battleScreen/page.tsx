@@ -1,6 +1,6 @@
 'use client';
 
-import { DialogBallon, PlayerDialogOptions, PowerUp, Timer } from '@/components';
+import { DialogBallon, PlayerDialogOptions, PowerUp, Thermometer, Timer } from '@/components';
 import { useGameContext } from '@/context/gameContext';
 import { average } from '@/libs/avarege';
 import { Rounded } from '@/libs/fonts';
@@ -11,50 +11,31 @@ import {
   employeeStartingPhrase,
   employerGame,
   employerStartingPhrase,
-  turns,
 } from '@/libs/gameData';
-import { Option } from "@/types/types";
-import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { Option } from '@/types/types';
+import { useEffect } from 'react';
 
 const BattleScreen = () => {
-  const { playerData, timeOver, setSendPowerUp, isOptionsVisible, setIsOptionsVisible } = useGameContext();
-  const [selectedBackground, setSelectedBackground] = useState('');
-  const [cpuChoice, setCpuChoice] = useState<Option>();
-
-  useEffect(() => {
-    setSelectedBackground(backgrounds[Math.floor(Math.random() * backgrounds.length)]);
-  }, []);
-
-  useEffect(() => {
-    if (playerData.turn === 'conclusion') {
-      return;
-    }
-    const timer = setTimeout(() => {
-      setIsOptionsVisible(true);
-    }, 3000);
-
-    return () => clearTimeout(timer);
-  }, [playerData.turn]);
+  const {
+    playerData,
+    timeOver,
+    isOptionsVisible,
+    averageAdrenaline,
+    setAverageAdrenaline,
+    averageEngagement,
+    setAverageEngagement,
+    cpuChoice,
+    setCpuChoice,
+  } = useGameContext();
 
   useEffect(() => {
     findNextQuestion();
   }, [playerData.turn]);
 
+  
   const findNextQuestion = () => {
-    const averageEngagement = average({ values: playerData.engagement });
-    const averageAdrenaline = average({ values: playerData.adrenaline });
-    console.log(playerData.adrenaline);
-    console.log(playerData.engagement);
-    console.log({ averageAdrenaline, averageEngagement });
-
-    if (playerData.turn === 'thirdTurn' || playerData.turn === 'fourthTurn' || playerData.turn === 'fifthTurn') {
-      const luckyNum = Math.random() * 10;
-
-      if (luckyNum > 7) {
-        setSendPowerUp(true);
-      }
-    }
+    setAverageEngagement(average({ values: playerData.engagement }));
+    setAverageAdrenaline(average({ values: playerData.adrenaline }));
 
     let options: Option[] | undefined = [];
 
@@ -91,18 +72,7 @@ const BattleScreen = () => {
   };
 
   return (
-    <div className='flex flex-col absolute inset-0 overflow-hidden'>
-      {selectedBackground && (
-        <Image
-          width={3000}
-          height={2000}
-          src={selectedBackground}
-          className='absolute -z-40 bg-contain bg-center w-screen h-screen brightness-50 opacity-80'
-          alt='background'
-        />
-      )}
-      <Timer />
-      <PowerUp />
+    <>
       {timeOver ? (
         <div
           className={`${Rounded.className} flex text-7xl gap-10 text-white h-full w-full flex-col justify-center items-center bg-red-600 bg-opacity-45`}
@@ -165,14 +135,16 @@ const BattleScreen = () => {
               )}
               {employerGame[playerData.turn] && 'employer' in employerGame[playerData.turn] && (
                 <div className='flex justify-center w-full h-full flex-col flex-grow'>
-                  <PlayerDialogOptions options={employerGame[playerData.turn].employer as Option[]} />
+                  <PlayerDialogOptions
+                    options={employerGame[playerData.turn].employer?.sort(() => Math.random() - 0.5) as Option[]}
+                  />
                 </div>
               )}
             </main>
           )}
         </>
       )}
-    </div>
+    </>
   );
 };
 

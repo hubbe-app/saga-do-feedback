@@ -11,10 +11,7 @@ export const Timer = () => {
   useEffect(() => {
     if (time === 0 && playerData.turn !== 'conclusion') {
       setTimeOver(true);
-      const receiver = playerData;
-      receiver.adrenaline.push(100);
-      receiver.time = '0:00';
-      console.log(receiver);
+      const receiver = { ...playerData, adrenaline: [...playerData.adrenaline, 100], time: '0:00' };
 
       setPlayerData(receiver);
     }
