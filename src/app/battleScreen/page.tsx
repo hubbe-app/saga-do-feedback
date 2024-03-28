@@ -1,17 +1,10 @@
 'use client';
 
-import { DialogBallon, PlayerDialogOptions, PowerUp, Thermometer, Timer } from '@/components';
+import { BattleCore } from '@/components';
 import { useGameContext } from '@/context/gameContext';
 import { average } from '@/libs/avarege';
 import { Rounded } from '@/libs/fonts';
-import {
-  TurnsType,
-  backgrounds,
-  employeeGame,
-  employeeStartingPhrase,
-  employerGame,
-  employerStartingPhrase,
-} from '@/libs/gameData';
+import { TurnsType, employeeGame,  employerGame } from '@/libs/gameData';
 import { Option } from '@/types/types';
 import { useEffect } from 'react';
 
@@ -19,20 +12,18 @@ const BattleScreen = () => {
   const {
     playerData,
     timeOver,
-    isOptionsVisible,
-    averageAdrenaline,
+     averageAdrenaline,
     setAverageAdrenaline,
     averageEngagement,
     setAverageEngagement,
-    cpuChoice,
     setCpuChoice,
+    turn
   } = useGameContext();
 
   useEffect(() => {
     findNextQuestion();
-  }, [playerData.turn]);
+  }, [turn]);
 
-  
   const findNextQuestion = () => {
     setAverageEngagement(average({ values: playerData.engagement }));
     setAverageAdrenaline(average({ values: playerData.adrenaline }));
@@ -40,9 +31,9 @@ const BattleScreen = () => {
     let options: Option[] | undefined = [];
 
     if (playerData.role === 'employee') {
-      options = employeeGame[playerData.turn as TurnsType].employer;
+      options = employeeGame[turn as TurnsType].employer;
     } else {
-      options = employerGame[playerData.turn as TurnsType].employee;
+      options = employerGame[turn as TurnsType].employee;
     }
     if (options) {
       options.sort((a, b) => {
@@ -66,7 +57,7 @@ const BattleScreen = () => {
         }
       });
 
-      const nextQuestion = options[0];
+      const nextQuestion = options[0];     
       setCpuChoice(nextQuestion);
     }
   };
@@ -81,68 +72,7 @@ const BattleScreen = () => {
           <p>Tente novamente</p>
         </div>
       ) : (
-        <>
-          {playerData.role === 'employee' ? (
-            <main className='flex flex-col min-h-full flex-grow justify-start items-center pt-8'>
-              {playerData.turn === 'firstTurn' && (
-                <div
-                  className={`${
-                    !isOptionsVisible ? 'transition-opacity duration-500 opacity-100' : 'opacity-0 hidden'
-                  } w-full`}
-                >
-                  <DialogBallon content={employeeStartingPhrase} />
-                </div>
-              )}
-              {playerData.turn && employeeGame[playerData.turn] && 'employer' in employeeGame[playerData.turn] && (
-                <div
-                  className={`${
-                    !isOptionsVisible ? 'transition-opacity duration-500 opacity-100' : 'opacity-0 hidden'
-                  } w-full h-full flex justify-center`}
-                >
-                  <div className='absolute right-0 bottom-0 '>
-                    <img src={playerData.playerCharacter.fullBody} alt='character' />
-                  </div>
-                  <div className='absolute left-0 bottom-0 '>
-                    <img src={playerData.cpuCharacter.fullBodyOn} alt='character' />
-                  </div>
-                  <DialogBallon cpuName={playerData.cpuCharacter.name} content={cpuChoice?.dialog as string} />
-                </div>
-              )}
-              {employeeGame[playerData.turn] &&
-                'employee' in employeeGame[playerData.turn] &&
-                playerData.time !== '0:00' && (
-                  <div
-                    className={` ${
-                      isOptionsVisible ? 'transition-opacity duration-500 opacity-100' : 'opacity-0'
-                    }  flex justify-center w-full h-full flex-col flex-grow`}
-                  >
-                    <PlayerDialogOptions
-                      cpuQuestion={
-                        playerData.turn === 'firstTurn' ? employeeStartingPhrase : (cpuChoice?.dialog as string)
-                      }
-                      options={employeeGame[playerData.turn].employee as Option[]}
-                    />
-                  </div>
-                )}
-            </main>
-          ) : (
-            <main className='flex flex-col min-h-full flex-grow justify-start items-center pt-8'>
-              {playerData.turn === 'firstTurn' && <DialogBallon content={employerStartingPhrase} />}
-              {playerData.turn && employerGame[playerData.turn] && 'employee' in employerGame[playerData.turn] ? (
-                <DialogBallon cpuName='Márcia' content={cpuChoice?.dialog as string} />
-              ) : (
-                ''
-              )}
-              {employerGame[playerData.turn] && 'employer' in employerGame[playerData.turn] && (
-                <div className='flex justify-center w-full h-full flex-col flex-grow'>
-                  <PlayerDialogOptions
-                    options={employerGame[playerData.turn].employer?.sort(() => Math.random() - 0.5) as Option[]}
-                  />
-                </div>
-              )}
-            </main>
-          )}
-        </>
+        <BattleCore />
       )}
     </>
   );

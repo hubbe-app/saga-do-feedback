@@ -6,16 +6,16 @@ import { useState, useEffect } from 'react';
 
 export const Timer = () => {
   const [time, setTime] = useState(4 * 60);
-  const { setPlayerData, playerData, setTimeOver } = useGameContext();
+  const { setPlayerData, playerData, setTimeOver, turn } = useGameContext();
 
   useEffect(() => {
-    if (time === 0 && playerData.turn !== 'conclusion') {
+    if (time === 0 && turn !== 'conclusion') {
       setTimeOver(true);
       const receiver = { ...playerData, adrenaline: [...playerData.adrenaline, 100], time: '0:00' };
 
       setPlayerData(receiver);
     }
-    if (playerData.turn === 'conclusion') {
+    if (turn === 'conclusion') {
       return;
     }
 
@@ -29,7 +29,7 @@ export const Timer = () => {
 
   useEffect(() => {
     setPlayerData({ ...playerData, time: `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}` });
-  }, [playerData.turn]);
+  }, [turn]);
 
   const minutes = Math.floor(time / 60);
   const seconds = time % 60;

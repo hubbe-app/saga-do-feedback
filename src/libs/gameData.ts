@@ -386,61 +386,69 @@ export const powerUps: PowerUpType[] = [
 
 export const employeeCharacters: CharacterType[] = [
   {
-    avatar: '/selectionScreen/ca1.png',
+    avatar: '/selection-screen/ca1.png',
     fullBody: '/battle/c1joao_pedro.png',
     fullBodyOn: '/battle/c1joao_pedro_on.png',
     name: 'João Pedro',
     description: 'Analista de Manutenção',
+    preview: '/battle-preview/c1_preview.png'
   },
   {
-    avatar: '/selectionScreen/ca2.png',
+    avatar: '/selection-screen/ca2.png',
     fullBody: '/battle/c2leticia.png',
     fullBodyOn: '/battle/c2leticia_on.png',
     name: 'Letícia',
     description: 'Operadora de Máquina',
+    preview: '/battle-preview/c2_preview.png'
   },
   {
-    avatar: '/selectionScreen/ca3.png',
+    avatar: '/selection-screen/ca3.png',
     fullBody: '/battle/c3paula.png',
     fullBodyOn: '/battle/c3paula_on.png',
     name: 'Paula',
     description: 'Analista de Marketing',
+    preview: '/battle-preview/c3_preview.png'
   },
   {
-    avatar: '/selectionScreen/ca4.png',
+    avatar: '/selection-screen/ca4.png',
     fullBody: '/battle/c4vinicius.png',
     fullBodyOn: '/battle/c4vinicius_on.png',
     name: 'Vinícius',
     description: 'Analista de P&D',
+    preview: '/battle-preview/c4_preview.png'
   },
 ];
 export const employerCharacters: CharacterType[] = [
   {
-    avatar: '/selectionScreen/ga1.png',
+    avatar: '/selection-screen/ga1.png',
     fullBody: '/battle/g1marcia.png',
     fullBodyOn: '/battle/g1marcia_on.png',
     name: 'Márcia',
     description: 'Líder de Equipe',
+    preview: '/battle-preview/g1_preview.png'
   },
   {
-    avatar: '/selectionScreen/ga2.png',
+    avatar: '/selection-screen/ga2.png',
     fullBody: '/battle/g2ana.png',
     fullBodyOn: '/battle/g2ana_on.png',
     name: 'Ana',
     description: 'Gestora de RH',
+    preview: '/battle-preview/g2_preview.png'
   },
   {
-    avatar: '/selectionScreen/ga3.png',
+    avatar: '/selection-screen/ga3.png',
     fullBody: '/battle/g3marcelo.png',
     fullBodyOn: '/battle/g3marcelo_on.png',
     name: 'Marcelo',
     description: 'Coordenador Financeiro',
+    preview: '/battle-preview/g3_preview.png'
   },
   {
-    avatar: '/selectionScreen/ga4.png',
+    avatar: '/selection-screen/ga4.png',
     fullBody: '/battle/g4rafael.png',
     fullBodyOn: '/battle/g4rafael_on.png',
     name: 'Rafael',
     description: 'Diretor Industrial',
+    preview: '/battle-preview/g4_preview.png'
   },
 ];

@@ -1,3 +1,4 @@
+'use client'
 import { useGameContext } from '@/context/gameContext';
 import { powerUps } from '@/libs/gameData';
 import { PowerUpType } from '@/types/types';
@@ -24,14 +25,13 @@ export const PowerUp = () => {
         handleClick();
       }
     };
-  
+
     window.addEventListener('keydown', handleKeyPress);
-  
+
     return () => {
       window.removeEventListener('keydown', handleKeyPress);
     };
   }, [powerUpButton.button]);
-  
 
   useEffect(() => {
     if (!sendPowerUp) {
@@ -48,8 +48,8 @@ export const PowerUp = () => {
     const animation = ['slide-up', 'slide-down', 'slide-left', 'slide-right'];
 
     const randomDirection = animation[Math.floor(Math.random() * animation.length)];
-    let startingPositionY = `${Math.random() * 70 + 15}%`;
-    let startingPositionX = `${Math.random() * 70 + 15}%`;
+    let startingPositionY = `${Math.random() * 65 + 15}%`;
+    let startingPositionX = `${Math.random() * 65 + 15}%`;
     if (randomDirection === 'slide-right') {
       startingPositionX = '0';
     } else if (randomDirection === 'slide-left') {
@@ -69,8 +69,8 @@ export const PowerUp = () => {
     setPowerUpButton(buttonOptions[Math.floor(Math.random() * buttonOptions.length)]);
   }, [sendPowerUp]);
 
-  const handleKeyPress = (event:React.KeyboardEvent<HTMLButtonElement>) => {
-    
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
     if (event.key.toUpperCase() === powerUpButton.button) {
       handleClick();
     }
@@ -82,7 +82,7 @@ export const PowerUp = () => {
       adrenaline: [...playerData.adrenaline, powerUp?.adrenaline as number],
       engagement: [...playerData.engagement, powerUp?.engagement as number],
     };
-    
+
     setPlayerData(receiver);
     setSendPowerUp(false);
   };

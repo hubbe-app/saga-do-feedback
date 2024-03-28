@@ -1,9 +1,8 @@
 'use client';
 import { useGameContext } from '@/context/gameContext';
-import PlayerDialogBallon from './PlayerDialogBallon';
 import { Rounded } from '@/libs/fonts';
 import { Option } from "@/types/types";
-import { DialogBallon } from '.';
+import { DialogBallon, PlayerDialogBallon } from '.';
 
 type PlayerDialogOptionsProps = {
   options: Option[];
@@ -11,7 +10,7 @@ type PlayerDialogOptionsProps = {
 };
 
 export const PlayerDialogOptions = ({ options, cpuQuestion }: PlayerDialogOptionsProps) => {
-  const { playerData } = useGameContext();
+  const { playerData, turn } = useGameContext();
 
   return (
     <>
@@ -23,7 +22,7 @@ export const PlayerDialogOptions = ({ options, cpuQuestion }: PlayerDialogOption
     </div>
       <div className='flex justify-center opacity-60 scale-75 h-full'>
         <DialogBallon
-          cpuName={playerData.turn === 'firstTurn' ? '' : playerData.cpuCharacter.name}
+          cpuName={turn === 'firstTurn' ? '' : playerData.cpuCharacter.name}
           content={cpuQuestion as string}
         />
       </div>
@@ -34,7 +33,7 @@ export const PlayerDialogOptions = ({ options, cpuQuestion }: PlayerDialogOption
         >
           {playerData.name}
         </div>
-        {options.map((option) => (
+        {options && options.map((option) => (
           <PlayerDialogBallon
             key={option.dialog}
             dialog={option.dialog}

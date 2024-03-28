@@ -1,4 +1,3 @@
-
 'use client';
 
 import { average } from '@/libs/avarege';
@@ -23,6 +22,8 @@ type GameContextType = {
   setAverageEngagement: (e: number) => void;
   cpuChoice: Option;
   setCpuChoice: (e: Option) => void;
+  turn: TurnsType;
+  setTurn: (e: TurnsType) => void;
 };
 
 export const GameContext = createContext<GameContextType | null>(null);
@@ -40,7 +41,6 @@ type PlayerDataType = {
   playerCharacter: CharacterType;
   cpuCharacter: CharacterType;
   role: 'employee' | 'employer';
-  turn: TurnsType;
 };
 
 export const GameProvider = ({ children }: GameProviderProps) => {
@@ -49,6 +49,7 @@ export const GameProvider = ({ children }: GameProviderProps) => {
   const [isOptionsVisible, setIsOptionsVisible] = useState(false);
   const [averageAdrenaline, setAverageAdrenaline] = useState(0);
   const [averageEngagement, setAverageEngagement] = useState(0);
+  const [turn, setTurn] = useState<TurnsType>('firstTurn');
   const [cpuChoice, setCpuChoice] = useState<Option>({
     dialog: '',
     adrenaline: 100,
@@ -66,6 +67,7 @@ export const GameProvider = ({ children }: GameProviderProps) => {
       fullBodyOn: '/battle/g2ana_on.png',
       name: 'Ana',
       description: 'Gestora de RH',
+      preview:''
     },
     playerCharacter: {
       avatar: '/selectionScreen/ca2.png',
@@ -73,9 +75,9 @@ export const GameProvider = ({ children }: GameProviderProps) => {
       fullBodyOn: '/battle/c2leticia_on.png',
       name: 'Letícia',
       description: 'Operadora de Máquina',
+      preview:''
     },
     role: 'employee',
-    turn: 'firstTurn',
   });
 
   const router = useRouter();
@@ -95,7 +97,7 @@ export const GameProvider = ({ children }: GameProviderProps) => {
   }, [playerData.role]);
 
   useEffect(() => {
-    if (playerData.turn === 'thirdTurn' || playerData.turn === 'fourthTurn' || playerData.turn === 'fifthTurn') {
+    if (turn === 'thirdTurn' || turn === 'fourthTurn' || turn === 'fifthTurn') {
       const luckyNum = Math.random() * 10;
 
       if (luckyNum > 0) {
@@ -103,7 +105,7 @@ export const GameProvider = ({ children }: GameProviderProps) => {
       }
     }
 
-    if (playerData.turn === 'conclusion') {
+    if (turn === 'conclusion') {
       return;
     }
     const timer = setTimeout(() => {
@@ -111,7 +113,7 @@ export const GameProvider = ({ children }: GameProviderProps) => {
     }, 3000);
 
     return () => clearTimeout(timer);
-  }, [playerData.turn]);
+  }, [turn]);
 
   useEffect(() => {
     if (cpuChoice?.engagement === 5 || cpuChoice?.engagement === 10 || cpuChoice?.engagement === 0) {
@@ -138,15 +140,13 @@ export const GameProvider = ({ children }: GameProviderProps) => {
   }, [cpuChoice]);
 
   const nextTurn = () => {
-    const currentIndex = turns.indexOf(playerData.turn);
+    const currentIndex = turns.indexOf(turn);
     const nextIndex = currentIndex + 1;
     if (nextIndex < turns.length) {
       const nextTurn = turns[nextIndex] as TurnsType;
-      setPlayerData({ ...playerData, turn: nextTurn });
+      setTurn(nextTurn);
     }
   };
-
-
 
   return (
     <GameContext.Provider
@@ -166,6 +166,8 @@ export const GameProvider = ({ children }: GameProviderProps) => {
         setAverageEngagement,
         cpuChoice,
         setCpuChoice,
+        turn,
+        setTurn,
       }}
     >
       {children}

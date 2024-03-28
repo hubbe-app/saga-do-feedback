@@ -4,18 +4,11 @@ import { Ranking, RegisterForm } from '@/components';
 import { useGameContext } from '@/context/gameContext';
 import { ActionName } from '@/libs/gamepad';
 import { useActionEffect } from '@/libs/input';
+import { useGamepad } from '@/libs/newGamepad';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 const MainScreen = () => {
- 
-  // useActionEffect(ActionName.MoveUp, () => {
-  //   setCount((c) => c + 1);
-  // });
-
-  // useActionEffect(ActionName.MoveDown, () => {
-  //   setCount((c) => c - 1);
-  // });
 
   return (
     <>

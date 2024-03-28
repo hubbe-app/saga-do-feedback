@@ -26,6 +26,7 @@ export type CharacterType = {
   fullBodyOn: string;
   name: string;
   description: string;
+  preview: string;
 };
 
 export type RankingType = {

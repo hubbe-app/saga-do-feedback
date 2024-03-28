@@ -1,5 +1,4 @@
 'use client';
-import { useGameContext } from '@/context/gameContext';
 import { Rounded } from '@/libs/fonts';
 
 type DefaultButtonProps = {
@@ -9,12 +8,10 @@ type DefaultButtonProps = {
 };
 
 export const DefaultButton = ({ title, small, disabled }: DefaultButtonProps) => {
-  const { next } = useGameContext();
 
   return (
       <button
         type='submit'
-        onClick={() => next()}
         disabled={!disabled}
         className={`relative ${small ? 'w-[150px] h-[68px] px-12 py-3' : 'w-[170px] h-[60px]'} ${Rounded.className} ${
           !disabled && 'opacity-50 brightness-50 cursor-not-allowed'
