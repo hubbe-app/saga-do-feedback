@@ -4,25 +4,35 @@ import { BattleCore } from '@/components';
 import { useGameContext } from '@/context/gameContext';
 import { average } from '@/libs/avarege';
 import { Rounded } from '@/libs/fonts';
-import { TurnsType, employeeGame,  employerGame } from '@/libs/gameData';
+import { TurnsType, employeeGame, employerGame } from '@/libs/gameData';
 import { Option } from '@/types/types';
+import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 const BattleScreen = () => {
   const {
     playerData,
     timeOver,
-     averageAdrenaline,
+    averageAdrenaline,
     setAverageAdrenaline,
     averageEngagement,
     setAverageEngagement,
     setCpuChoice,
-    turn
+    turn,
   } = useGameContext();
+
+  const router = useRouter();
 
   useEffect(() => {
     findNextQuestion();
   }, [turn]);
+
+  useEffect(() => {
+    timeOver &&
+      setTimeout(() => {
+        router.push('/mainScreen');
+      }, 3000);
+  }, [timeOver]);
 
   const findNextQuestion = () => {
     setAverageEngagement(average({ values: playerData.engagement }));
@@ -57,7 +67,7 @@ const BattleScreen = () => {
         }
       });
 
-      const nextQuestion = options[0];     
+      const nextQuestion = options[0];
       setCpuChoice(nextQuestion);
     }
   };

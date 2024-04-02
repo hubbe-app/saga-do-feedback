@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { useGameContext } from '@/context/gameContext';
 import { powerUps } from '@/libs/gameData';
 import { PowerUpType } from '@/types/types';
@@ -77,11 +77,10 @@ export const PowerUp = () => {
   };
 
   const handleClick = () => {
-    const receiver = {
-      ...playerData,
-      adrenaline: [...playerData.adrenaline, powerUp?.adrenaline as number],
-      engagement: [...playerData.engagement, powerUp?.engagement as number],
-    };
+    const receiver = playerData;
+
+    receiver.adrenaline = [...receiver.adrenaline, powerUp?.adrenaline as number];
+    receiver.engagement = [...playerData.engagement, powerUp?.engagement as number];
 
     setPlayerData(receiver);
     setSendPowerUp(false);

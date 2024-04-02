@@ -24,6 +24,8 @@ type GameContextType = {
   setCpuChoice: (e: Option) => void;
   turn: TurnsType;
   setTurn: (e: TurnsType) => void;
+  selectedBattleBackground: string;
+  setSelectedBattleBackground: (e: string) => void;
 };
 
 export const GameContext = createContext<GameContextType | null>(null);
@@ -50,24 +52,25 @@ export const GameProvider = ({ children }: GameProviderProps) => {
   const [averageAdrenaline, setAverageAdrenaline] = useState(0);
   const [averageEngagement, setAverageEngagement] = useState(0);
   const [turn, setTurn] = useState<TurnsType>('firstTurn');
+  const [selectedBattleBackground, setSelectedBattleBackground] = useState('');
   const [cpuChoice, setCpuChoice] = useState<Option>({
     dialog: '',
     adrenaline: 100,
     engagement: 100,
   });
   const [playerData, setPlayerData] = useState<PlayerDataType>({
-    name: 'Vinícius',
+    name: '',
     score: '',
     engagement: [],
     adrenaline: [],
     time: '',
     cpuCharacter: {
-      avatar: '/selectionScreen/ga2.png',
-      fullBody: '/battle/g2ana.png',
-      fullBodyOn: '/battle/g2ana_on.png',
-      name: 'Ana',
-      description: 'Gestora de RH',
-      preview:''
+      avatar: '',
+      fullBody: '',
+      fullBodyOn: '',
+      name: '',
+      description: '',
+      preview: '',
     },
     playerCharacter: {
       avatar: '/selectionScreen/ca2.png',
@@ -75,7 +78,7 @@ export const GameProvider = ({ children }: GameProviderProps) => {
       fullBodyOn: '/battle/c2leticia_on.png',
       name: 'Letícia',
       description: 'Operadora de Máquina',
-      preview:''
+      preview: '/battle-preview/c2_preview.png',
     },
     role: 'employee',
   });
@@ -97,15 +100,15 @@ export const GameProvider = ({ children }: GameProviderProps) => {
   }, [playerData.role]);
 
   useEffect(() => {
-    if (turn === 'thirdTurn' || turn === 'fourthTurn' || turn === 'fifthTurn') {
+    if (turn === 'thirdTurn' || turn === 'fourthTurn') {
       const luckyNum = Math.random() * 10;
 
-      if (luckyNum > 0) {
+      if (luckyNum > 7) {
         setSendPowerUp(true);
       }
     }
 
-    if (turn === 'conclusion') {
+    if (turn === 'conclusion' || turn === 'firstTurn') {
       return;
     }
     const timer = setTimeout(() => {
@@ -133,9 +136,7 @@ export const GameProvider = ({ children }: GameProviderProps) => {
         rankingList.push({ name: playerData.name, score: '0', time: playerData.time });
       }
       localStorage.setItem('rankingList', JSON.stringify(rankingList));
-      setTimeout(() => {
-        router.push('/mainScreen');
-      }, 5000);
+      router.push('/battleResult');
     }
   }, [cpuChoice]);
 
@@ -168,6 +169,8 @@ export const GameProvider = ({ children }: GameProviderProps) => {
         setCpuChoice,
         turn,
         setTurn,
+        selectedBattleBackground,
+        setSelectedBattleBackground,
       }}
     >
       {children}

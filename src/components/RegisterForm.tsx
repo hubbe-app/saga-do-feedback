@@ -38,7 +38,7 @@ export const RegisterForm = () => {
 
   const isFormValid = () => {
     if (
-      formData.nome.length > 5 &&
+      formData.nome.length > 4 &&
       isEmailValid(formData.email) &&
       formData.telefone.length >= 14 &&
       formData.empresa.length > 3 &&
@@ -60,7 +60,7 @@ export const RegisterForm = () => {
 
     localStorage.setItem('users', JSON.stringify(userList));
 
-    router.push('/battleScreen');
+    router.push('/objectiveScreen');
   };
 
   return (
