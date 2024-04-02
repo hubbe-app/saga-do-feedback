@@ -1,7 +1,7 @@
 'use client';
 import { useGameContext } from '@/context/gameContext';
 import { Rounded } from '@/libs/fonts';
-import { Option } from "@/types/types";
+import { Option } from '@/types/types';
 import { DialogBallon, PlayerDialogBallon } from '.';
 
 type PlayerDialogOptionsProps = {
@@ -11,15 +11,18 @@ type PlayerDialogOptionsProps = {
 
 export const PlayerDialogOptions = ({ options, cpuQuestion }: PlayerDialogOptionsProps) => {
   const { playerData, turn } = useGameContext();
+console.log(options);
+
+  const randomizedOptions = [...options].sort(() => Math.random() - 0.5);
 
   return (
     <>
-    <div className='absolute right-0 bottom-0 '>
-      <img src={playerData.playerCharacter.fullBodyOn} alt="character" />
-    </div>
-    <div className='absolute left-0 bottom-0 '>
-      <img src={playerData.cpuCharacter.fullBody} alt="character" />
-    </div>
+      <div className='absolute right-0 bottom-0 '>
+        <img src={playerData.playerCharacter.fullBodyOn} alt='character' />
+      </div>
+      <div className='absolute left-0 bottom-0 '>
+        <img src={playerData.cpuCharacter.fullBody} alt='character' />
+      </div>
       <div className='flex justify-center opacity-60 scale-75 h-full'>
         <DialogBallon
           cpuName={turn === 'firstTurn' ? '' : playerData.cpuCharacter.name}
@@ -33,14 +36,15 @@ export const PlayerDialogOptions = ({ options, cpuQuestion }: PlayerDialogOption
         >
           {playerData.name}
         </div>
-        {options && options.map((option) => (
-          <PlayerDialogBallon
-            key={option.dialog}
-            dialog={option.dialog}
-            adrenaline={option.adrenaline}
-            engagement={option.engagement}
-          />
-        ))}
+        {options &&
+          randomizedOptions.map((option) => (
+            <PlayerDialogBallon
+              key={option.dialog}
+              dialog={option.dialog}
+              adrenaline={option.adrenaline}
+              engagement={option.engagement}
+            />
+          ))}
       </div>
     </>
   );

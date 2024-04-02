@@ -33,7 +33,7 @@ export const AvatarOption = ({ character }: AvatarOptionProps) => {
       <div
         className={`${!isHovered ? 'hidden' : 'block'} ${
           Rounded.className
-        } text-center w-52 p-4 gap-2 bg-gray-900 bg-opacity-60 rounded-3xl border border-gray-900 flex-col justify-center items-center inline-flex`}
+        } text-center w-52 min-h-40 p-4 gap-2 bg-gray-900 bg-opacity-60 rounded-3xl border border-gray-900 flex-col justify-center items-center inline-flex`}
       >
         <p className='text-blue-300 text-3xl font-extrabold'>{character.name}</p>
         <p className='text-white text-2xl font-extrabold'>{character.description}</p>

@@ -18,8 +18,8 @@ export const RankingItem = ({ name, score, index }: RankingItemProps) => {
         {index === 1 && <Image height={20} width={20} src={'crown.svg'} alt='crown' />}
         {index === 2 && <Image height={18} width={18} src={'crown-2nd.svg'} alt='crown' />}
         {index === 3 && <Image height={16} width={16} src={'crown-3rd.svg'} alt='crown' />}
-        <div className='flex-grow'>{name}</div>
-        <div className='font-normal'>{score} pts</div>
+        <div className='flex-grow overflow-hidden whitespace-nowrap text-ellipsis'>{name}</div>
+        <div className='font-normal whitespace-nowrap'>{score} pts</div>
       </div>
     </>
   );

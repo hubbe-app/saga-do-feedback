@@ -5,12 +5,34 @@ import { DialogBallon, PlayerDialogOptions } from '.';
 import { employeeGame, employeeStartingPhrase, employerGame, employerStartingPhrase } from '@/libs/gameData';
 import { Option } from '@/types/types';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export const BattleCore = () => {
-  const { playerData, isOptionsVisible, cpuChoice, turn } = useGameContext();
+  const { playerData, isOptionsVisible, cpuChoice, turn, setIsOptionsVisible } = useGameContext();
   const [currentOptions, setCurrentOptions] = useState<Option[]>([]);
 
+  const router = useRouter();
+
   useEffect(() => {
+    if (turn === 'firstTurn') {
+      const timer = setTimeout(() => {
+        setIsOptionsVisible(true);
+      }, 3000);
+      if (playerData.role === 'employee') {
+        setCurrentOptions(employeeGame[turn].employee as Option[]);
+      } else {
+        setCurrentOptions(employerGame[turn].employer as Option[]);
+      }
+
+      return () => clearTimeout(timer);
+    }
+
+    if (turn === 'conclusion') {
+      router.push('/battleResult');
+    }
+    if (playerData.name === '') {
+      router.push('/mainScreen');
+    }
     if (playerData.role === 'employee') {
       setCurrentOptions(employeeGame[turn].employee as Option[]);
     } else {
@@ -55,7 +77,7 @@ export const BattleCore = () => {
                   : employerStartingPhrase
                 : (cpuChoice?.dialog as string)
             }
-            options={currentOptions}
+            options={currentOptions ? currentOptions : []}
           />
         </div>
       )}
