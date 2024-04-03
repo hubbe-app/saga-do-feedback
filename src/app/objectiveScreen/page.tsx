@@ -4,25 +4,12 @@ import { ObjectiveContainer } from '@/components';
 import { ActionName } from '@/libs/gamepad';
 import { useActionEffect, useAxisEffect } from '@/libs/input';
 import { useCycleValue } from '@/libs/math';
-import { useGamepad } from '@/libs/newGamepad';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
 
 const ObjectiveScreen = () => {
 
   const [selectedIndex, bumpUpIndex, bumpDownIndex] = useCycleValue(0, 0, 1);
-
-  useEffect(() => {
-    console.log(selectedIndex);
-  }, [selectedIndex]);
-
-  useActionEffect(ActionName.Confirm, () => {
-    if (selectedIndex === 0) {
-      console.log('employee');
-    } else {
-      console.log('employer');
-    }
-  }, [selectedIndex]);
+console.log({selectedIndex});
 
   useActionEffect(ActionName.MoveRight, () => bumpUpIndex(), [selectedIndex]);
   useActionEffect(ActionName.MoveLeft, () => bumpDownIndex(), [selectedIndex]);
@@ -59,7 +46,7 @@ const ObjectiveScreen = () => {
           />
           <ObjectiveContainer
             role='employer'
-            text='Avançar na carreira como gestor'
+            text='Defender a cultura como gestor'
             avatar='/objective-selection/employer.png'
             selected={selectedIndex === 1}
           />

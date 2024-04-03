@@ -1,6 +1,8 @@
 'use client';
 import { useGameContext } from '@/context/gameContext';
 import { Rounded } from '@/libs/fonts';
+import { ActionName } from '@/libs/gamepad';
+import { useActionEffect } from '@/libs/input';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 
@@ -18,6 +20,8 @@ export const ObjectiveContainer = ({ text, avatar, role, selected }: ObjectiveCo
   const divRef = useRef<HTMLDivElement>(null);
 
   const clickHandler = () => {
+    console.log({ role });
+    
     const receiver = playerData;
     receiver.role = role;
 
@@ -30,23 +34,30 @@ export const ObjectiveContainer = ({ text, avatar, role, selected }: ObjectiveCo
       divRef.current.focus();
       console.log(text, selected);
     }
-  }, [selected])
+  }, [selected]);
 
+  useActionEffect(
+    ActionName.Confirm,
+    () => {
+      console.log(role, 'confirmou');
 
+      clickHandler();
+    },
+    []
+  );
 
   return (
     <div
       onClick={clickHandler}
       ref={divRef}
       autoFocus={true}
-      className={
-        selected ? 
-          'overflow-hidden flex flex-col p-4 justify-center items-center w-1/4 h-[700px] rounded-3xl shadow border-blue-400 focus:bg-gray-900 focus:bg-opacity-30 focus:border-4 focus:backdrop-blur-md hover:bg-gray-900 hover:bg-opacity-30 hover:border-4 hover:backdrop-blur-md cursor-pointer' : 
-          'overflow-hidden flex flex-col p-4 justify-center items-center w-1/4 h-[700px] rounded-3xl shadow border-blue-400 bg-gray-900 bg-opacity-30 border-4 backdrop-blur-md cursor-pointer'
-      }
+      className={`
+        ${selected && 'bg-opacity-30 border-4 backdrop-blur-md'}
+          'overflow-hidden flex flex-col p-4 justify-center border-blue-400 items-center w-1/4 h-[700px] rounded-3xl cursor-pointer hover:bg-opacity-30 hover:border-4 hover:backdrop-blur-md
+      `}
     >
       <img className='object-contain w-48' src={avatar} alt='' />
-      <p className={`${Rounded.className} text-4xl font-extrabold text-center text-white`}>{text}</p>
+      <p className={`${Rounded.className} max-w-[440px] text-4xl font-extrabold text-center text-white`}>{text}</p>
     </div>
   );
 };

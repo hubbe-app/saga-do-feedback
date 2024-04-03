@@ -3,6 +3,10 @@ import { useGameContext } from '@/context/gameContext';
 import { Rounded } from '@/libs/fonts';
 import { Option } from '@/types/types';
 import { DialogBallon, PlayerDialogBallon } from '.';
+import { useEffect, useState } from 'react';
+import { useActionEffect } from '@/libs/input';
+import { ActionName } from '@/libs/gamepad';
+import { useCycleValue } from '@/libs/math';
 
 type PlayerDialogOptionsProps = {
   options: Option[];
@@ -11,9 +15,16 @@ type PlayerDialogOptionsProps = {
 
 export const PlayerDialogOptions = ({ options, cpuQuestion }: PlayerDialogOptionsProps) => {
   const { playerData, turn } = useGameContext();
-console.log(options);
+  const [randomizedOptions, setRandomizedOptions] = useState<Option[]>([]);
 
-  const randomizedOptions = [...options].sort(() => Math.random() - 0.5);
+  const [selectedIndex, bumpUpIndex, bumpDownIndex] = useCycleValue(0, 0, 2);
+
+  useActionEffect(ActionName.MoveDown, () => bumpUpIndex(), [selectedIndex]);
+  useActionEffect(ActionName.MoveUp, () => bumpDownIndex(), [selectedIndex]);
+
+  useEffect(() => {
+    setRandomizedOptions([...options].sort(() => Math.random() - 0.5));
+  }, [options]);
 
   return (
     <>
@@ -34,11 +45,12 @@ console.log(options);
         <div
           className={`${Rounded.className} flex items-center justify-center text-2xl min-w-32 min-h-10 px-8 bg-blue-600 rounded-xl text-white`}
         >
-          {playerData.name}
+          {playerData.playerCharacter.name}
         </div>
         {options &&
-          randomizedOptions.map((option) => (
+          randomizedOptions.map((option, index) => (
             <PlayerDialogBallon
+              selected={selectedIndex === index}
               key={option.dialog}
               dialog={option.dialog}
               adrenaline={option.adrenaline}

@@ -27,21 +27,23 @@
 .animate-slide-right {
   animation: slideRight 8s linear;
 }
-.animate-prev-slide-right {
-  animation: slideRight 1s linear;
-}
 
 .animate-slide-left {
   animation: slideLeft 8s linear;
 }
+
+.animate-slide-down {
+  animation: slideDown 7s linear;
+}
+
+.animate-slide-up {
+  animation: slideUp 7s linear;
+}
+
 .animate-prev-slide-left {
   animation: slideLeft 1s linear;
 }
 
-.animate-slide-down {
-  animation: slideDown 8s linear;
-}
-
-.animate-slide-up {
-  animation: slideUp 8s linear;
+.animate-prev-slide-right {
+  animation: slideRight 1s linear;
 }

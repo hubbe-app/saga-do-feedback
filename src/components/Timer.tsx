@@ -28,6 +28,9 @@ export const Timer = () => {
   }, [time]);
 
   useEffect(() => {
+    if (turn === 'firstTurn') {
+      setTime(4 * 60);
+    }
     setPlayerData({ ...playerData, time: `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}` });
   }, [turn]);
 

@@ -8,6 +8,7 @@ import { ReactNode, createContext, useContext, useEffect, useState } from 'react
 
 type GameContextType = {
   nextTurn: () => void;
+  gameReset: () => void;
   playerData: PlayerDataType;
   setPlayerData: (e: PlayerDataType) => void;
   timeOver: boolean;
@@ -119,7 +120,7 @@ export const GameProvider = ({ children }: GameProviderProps) => {
   }, [turn]);
 
   useEffect(() => {
-    if (cpuChoice?.engagement === 5 || cpuChoice?.engagement === 10 || cpuChoice?.engagement === 0) {
+    if (turn === 'conclusion') {
       const score = Math.abs(average({ values: playerData.engagement }) - average({ values: playerData.adrenaline }));
 
       const rankingList: RankingType[] = JSON.parse(localStorage.getItem('rankingList') || '[]');
@@ -149,10 +150,46 @@ export const GameProvider = ({ children }: GameProviderProps) => {
     }
   };
 
+  const gameReset = () => {
+    setTurn('firstTurn');
+    setPlayerData({
+      name: '',
+      score: '',
+      engagement: [],
+      adrenaline: [],
+      time: '',
+      cpuCharacter: {
+        avatar: '',
+        fullBody: '',
+        fullBodyOn: '',
+        name: '',
+        description: '',
+        preview: '',
+      },
+      playerCharacter: {
+        avatar: '',
+        fullBody: '',
+        fullBodyOn: '',
+        name: '',
+        description: '',
+        preview: '',
+      },
+      role: 'employee',
+    });
+    setAverageAdrenaline(0);
+    setAverageEngagement(0);
+    setCpuChoice({
+      dialog: '',
+      adrenaline: 100,
+      engagement: 100,
+    });
+  }
+
   return (
     <GameContext.Provider
       value={{
         nextTurn,
+        gameReset,
         playerData,
         setPlayerData,
         timeOver,

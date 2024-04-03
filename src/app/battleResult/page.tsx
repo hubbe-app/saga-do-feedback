@@ -12,11 +12,6 @@ const BattleResult = () => {
     selectedBattleBackground,
     cpuChoice,
     playerData,
-    setTurn,
-    setPlayerData,
-    setAverageAdrenaline,
-    setAverageEngagement,
-    setCpuChoice,
   } = useGameContext();
 
   const router = useRouter();
@@ -37,42 +32,7 @@ const BattleResult = () => {
 
   const clickHandler = () => {
     router.push('/mainScreen');
-    setTurn('firstTurn');
-    setPlayerData({
-      name: '',
-      score: '',
-      engagement: [],
-      adrenaline: [],
-      time: '',
-      cpuCharacter: {
-        avatar: '',
-        fullBody: '',
-        fullBodyOn: '',
-        name: '',
-        description: '',
-        preview: '',
-      },
-      playerCharacter: {
-        avatar: '/selectionScreen/ca2.png',
-        fullBody: '/battle/c2leticia.png',
-        fullBodyOn: '/battle/c2leticia_on.png',
-        name: 'Letícia',
-        description: 'Operadora de Máquina',
-        preview: '',
-      },
-      role: 'employee',
-    });
-    setAverageAdrenaline(0);
-    setAverageEngagement(0);
-    setCpuChoice({
-      dialog: '',
-      adrenaline: 100,
-      engagement: 100,
-    });
   };
-
-console.log({cpuChoice});
-
 
   return (
     <>
