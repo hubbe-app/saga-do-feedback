@@ -131,17 +131,17 @@ export class InputMapper {
    
    private keyActionMap: Map<string, ActionName>;
    private buttonActionMap: Map<number, ActionName>;
-   private actionCallbacks: Map<ActionName, ActionCallback>;
-   private axisCallbacks: Map<number, AxisCallback>;
+   private actionCallbacks: Partial<Record<ActionName, ActionCallback>>;
+   private axisCallbacks: Record<number, AxisCallback>;
    private gamepadHandler: GamepadHandler;
 
    constructor(private window: Window) {
    
       this.keyActionMap = new Map();
       this.buttonActionMap = new Map();
-      this.axisCallbacks = new Map();
+      this.axisCallbacks = {};
       
-      this.actionCallbacks = new Map();
+      this.actionCallbacks = {};
       this.gamepadHandler = new GamepadHandler(window);
 
       this.window.addEventListener('keydown', (e: KeyboardEvent) => this.handleKeyInput(e));
@@ -158,19 +158,20 @@ export class InputMapper {
    }
 
    public setActionCallback(action: ActionName, callback: ActionCallback): void {
-      this.actionCallbacks.set(action, callback);
+      this.actionCallbacks[action] = callback;
    }
-
    public removeActionCallback(action: ActionName): void {
-      this.actionCallbacks.delete(action);
+      delete this.actionCallbacks[action];
    }
 
    public setAxisCallback(axisIndex: number, callback: AxisCallback): void {
-      this.axisCallbacks.set(axisIndex, callback);
+      this.axisCallbacks[axisIndex] = callback;
    }
 
    public removeAxisCallback(axis: number[]): void {
-      axis.forEach(axisIndex => this.axisCallbacks.delete(axisIndex));
+      axis.forEach(axisIndex => {
+         delete this.axisCallbacks[axisIndex];
+      });
    }
 
    public loadConfiguration(config: InputMapperConfig): void {
@@ -198,14 +199,17 @@ export class InputMapper {
    }
 
    private handleGamepadAxis(event: GamepadAxisEvent): void {
-      const action = this.axisCallbacks.get(event.axisIndex);
+      const action = this.axisCallbacks[event.axisIndex];
       if (action !== undefined) {
          action(event.axisIndex, event.value);
       }
    }
 
    private triggerAction(action: ActionName): void {
-      this.actionCallbacks.get(action)?.();
+      const actionCallback = this.actionCallbacks[action];
+      if (actionCallback) {
+         actionCallback();
+      }
    }
 }
 
