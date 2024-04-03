@@ -1,7 +1,41 @@
+'use client';
+
 import { ObjectiveContainer } from '@/components';
+import { ActionName } from '@/libs/gamepad';
+import { useActionEffect, useAxisEffect } from '@/libs/input';
+import { useCycleValue } from '@/libs/math';
+import { useGamepad } from '@/libs/newGamepad';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
 
 const ObjectiveScreen = () => {
+
+  const [selectedIndex, bumpUpIndex, bumpDownIndex] = useCycleValue(0, 0, 1);
+
+  useEffect(() => {
+    console.log(selectedIndex);
+  }, [selectedIndex]);
+
+  useActionEffect(ActionName.Confirm, () => {
+    if (selectedIndex === 0) {
+      console.log('employee');
+    } else {
+      console.log('employer');
+    }
+  }, [selectedIndex]);
+
+  useActionEffect(ActionName.MoveRight, () => bumpUpIndex(), [selectedIndex]);
+  useActionEffect(ActionName.MoveLeft, () => bumpDownIndex(), [selectedIndex]);
+  
+  
+  useAxisEffect([0], (axis, value) => {
+    if (value > 0.98) {
+      bumpUpIndex();
+    } else if (value < 0.98) {
+      bumpDownIndex();
+    }
+  });
+
   return (
     <>
       <div className='absolute -z-20 top-0 left-0 w-screen h-screen bg-slate-950 overflow-hidden'>
@@ -14,17 +48,20 @@ const ObjectiveScreen = () => {
         />
       </div>
       <main className='flex flex-col h-screen w-screen overflow-hidden'>
+        
         <img className='h-16 mt-24 object-contain' src='/objective-selection/title.png' alt='' />
         <div className='flex h-full justify-around items-center max-w-full mt-6'>
           <ObjectiveContainer
             role='employee'
             text='Avançar na carreira como colaborador'
             avatar='/objective-selection/employee.png'
+            selected={selectedIndex === 0}
           />
           <ObjectiveContainer
             role='employer'
             text='Avançar na carreira como gestor'
             avatar='/objective-selection/employer.png'
+            selected={selectedIndex === 1}
           />
         </div>
       </main>

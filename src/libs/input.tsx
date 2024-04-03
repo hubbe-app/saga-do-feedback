@@ -176,11 +176,11 @@ export const useKeyUpEffect = (key: string, callback: () => void) => {
    }, [releasedKeys]);
 }
 
-export const useActionEffect = (action: ActionName, callback: ActionCallback) => {
+export const useActionEffect = (action: ActionName, callback: ActionCallback, deps: any[] = []) => {
    useEffect(() => {
       inputMapper.setActionCallback(action, callback);
       return () => inputMapper.removeActionCallback(action);
-   }, [action]);
+   }, deps);
 }
 
 export const useAxisEffect = (axis: number[], callback: AxisCallback) => {
