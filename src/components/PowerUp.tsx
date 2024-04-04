@@ -37,6 +37,9 @@ export const PowerUp = () => {
     if (!sendPowerUp) {
       return;
     }
+    setTimeout(() => {
+      new Audio('/sounds/powerUp-appeared.mp3').play();
+    }, 2900);
 
     setPowerUp(powerUps[Math.floor(powerUps.length * Math.random())]);
 
@@ -48,8 +51,8 @@ export const PowerUp = () => {
     const animation = ['slide-up', 'slide-down', 'slide-left', 'slide-right'];
 
     const randomDirection = animation[Math.floor(Math.random() * animation.length)];
-    let startingPositionY = `${Math.random() * 65 + 15}%`;
-    let startingPositionX = `${Math.random() * 65 + 15}%`;
+    let startingPositionY = `${Math.random() * 60 + 15}%`;
+    let startingPositionX = `${Math.random() * 60 + 15}%`;
     if (randomDirection === 'slide-right') {
       startingPositionX = '0';
     } else if (randomDirection === 'slide-left') {
@@ -77,6 +80,8 @@ export const PowerUp = () => {
   };
 
   const handleClick = () => {
+    new Audio('/sounds/take-powerUp.mp3').play();
+
     const receiver = playerData;
 
     receiver.adrenaline = [...receiver.adrenaline, powerUp?.adrenaline as number];

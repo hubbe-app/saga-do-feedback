@@ -373,12 +373,12 @@ export const employeeConclusionMsg = {
       'Com base em suas respostas, fica evidente seu comprometimento com a eficiência e a colaboração. Sua abordagem proativa para resolver desafios, junto com a valorização do equilíbrio entre vida profissional e pessoal, é notável. Além disso, sua atitude positiva em relação ao aprendizado contínuo e a capacidade de lidar construtivamente com o feedback destacam seu profissionalismo exemplar. Essas qualidades contribuem significativamente para um ambiente de trabalho produtivo.',
   },
   neutralResult: {
-    mainMessage: 'É importante focarmos em algumas melhorias para alcançar a promoção desejada.',
+    mainMessage: 'Avaliar alguns pontos, como sua iniciativa na gestão do tempo, priorização de tarefas e protagonismo na carreira, será importante para seu progresso e uma possível promoção.',
     message:
       'Analisando suas respostas, identificamos uma oportunidade para fortalecer o protagonismo na sua carreira. Sugerimos uma abordagem mais ativa na gestão do tempo, utilizando métodos eficazes e aprimorando a priorização de tarefas para atingir prazos com mais consistência. Além disso, desenvolver habilidades para expressar preocupações ou insatisfações de maneira mais aberta pode contribuir para um ambiente de trabalho mais colaborativo e resolutivo. Estamos confiantes de que, com ajustes nessas áreas, você poderá maximizar seu potencial e impacto positivo na equipe.',
   },
   badResult: {
-    mainMessage: 'É importante focarmos em algumas melhorias para alcançar a promoção desejada.',
+    mainMessage: 'Sua abordagem reativa diante dos desafios e a falta de desenvolvimento de competências têm sido limitantes em sua busca por progresso na carreira.',
     message:
       'Analisando suas respostas, identificamos uma oportunidade para fortalecer o protagonismo na sua carreira. Sugerimos uma abordagem mais ativa na gestão do tempo, utilizando métodos eficazes e aprimorando a priorização de tarefas para atingir prazos com mais consistência. Além disso, desenvolver habilidades para expressar preocupações ou insatisfações de maneira mais aberta pode contribuir para um ambiente de trabalho mais colaborativo e resolutivo. Estamos confiantes de que, com ajustes nessas áreas, você poderá maximizar seu potencial e impacto positivo na equipe.',
   },
@@ -386,17 +386,17 @@ export const employeeConclusionMsg = {
 
 export const employerConclusionMsg = {
   goodResult: {
-    mainMessage: 'Parabéns! Sua liderança demonstra um compromisso sólido com os valores pessoais e organizacionais!',
+    mainMessage: 'Parabéns! Sua liderança demonstra uma abordagem flexível somada à habilidade em equilibrar pressão por resultados e bem-estar da equipe, um compromisso sólido com os valores pessoais e organizacionais.',
     message:
       'Suas respostas refletem uma liderança inspiradora e eficaz. Sua abordagem aberta a novas ideias e estímulo à criatividade destacam-se positivamente. Além disso, reconhecer constantemente o bom trabalho da equipe e promover um ambiente de aprendizado contínuo demonstram seu compromisso com o desenvolvimento profissional. Sua habilidade em equilibrar pressão por resultados e bem-estar da equipe é uma qualidade valiosa. Sua liderança é um exemplo inspirador para a equipe.',
   },
   neutralResult: {
-    mainMessage: 'Adotar uma postura mais flexível pode fortalecer sua liderança!',
+    mainMessage: 'Adotar uma postura mais flexível e encorajar a criatividade da equipe pode fortalecer sua liderança!',
     message:
       'Analisando suas respostas, notamos uma tendência a manter uma abordagem tradicional em várias situações. Para otimizar a liderança, sugerimos maior flexibilidade para abraçar ideias inovadoras e encorajar a criatividade da equipe. Além disso, ao lidar com desafios, buscar soluções práticas pode melhorar a eficácia em alcançar metas. Essas adaptações contribuiriam para uma liderança mais dinâmica e eficiente.',
   },
   badResult: {
-    mainMessage: 'Adotar uma postura mais flexível pode fortalecer sua liderança!',
+    mainMessage: 'Sua liderança parece estar desconectada dos valores pessoais e organizacionais, o que pode afetar negativamente o ambiente de trabalho e a eficácia da equipe.',
     message:
       'Analisando suas respostas, notamos uma tendência a manter uma abordagem tradicional em várias situações. Para otimizar a liderança, sugerimos maior flexibilidade para abraçar ideias inovadoras e encorajar a criatividade da equipe. Além disso, ao lidar com desafios, buscar soluções práticas pode melhorar a eficácia em alcançar metas. Essas adaptações contribuiriam para uma liderança mais dinâmica e eficiente.',
   },

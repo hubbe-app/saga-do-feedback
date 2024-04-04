@@ -14,15 +14,23 @@ type AvatarOptionProps = {
 
 export const AvatarOption = ({ character, selected }: AvatarOptionProps) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [isFirstRender, setIsFirstRender] = useState(true);
   const { setPlayerData, playerData } = useGameContext();
   const router = useRouter();
+
+  useEffect(() => {
+    if (isFirstRender) {
+      return setIsFirstRender(false);
+    }
+    new Audio('/sounds/select-objective.mp3').play();
+  }, [selected]);
 
   const divRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (selected && divRef.current) {
       console.log(character.name, divRef.current);
-      
+
       divRef.current.focus();
       console.log(character.name, selected);
     }
@@ -32,7 +40,7 @@ export const AvatarOption = ({ character, selected }: AvatarOptionProps) => {
     ActionName.Confirm,
     () => {
       console.log(character.name, 'confirmando action');
-      
+
       clickHandler();
     },
     []
@@ -40,7 +48,8 @@ export const AvatarOption = ({ character, selected }: AvatarOptionProps) => {
 
   const clickHandler = () => {
     console.log(character);
-    
+    new Audio('/sounds/click-avatar-obj.mp3').play();
+
     setPlayerData({ ...playerData, playerCharacter: character });
     router.push('/battlePreview');
   };

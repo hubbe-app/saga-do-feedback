@@ -28,10 +28,12 @@ const BattleScreen = () => {
   }, [turn]);
 
   useEffect(() => {
-    timeOver &&
+    if (timeOver) {
+      new Audio('/sounds/bad-result.wav').play();
       setTimeout(() => {
         router.push('/mainScreen');
       }, 3000);
+    }
   }, [timeOver]);
 
   const findNextQuestion = () => {

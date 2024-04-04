@@ -3,8 +3,8 @@
 import { average } from '@/libs/avarege';
 import { TurnsType, employeeCharacters, employerCharacters, turns } from '@/libs/gameData';
 import { CharacterType, Option, RankingType } from '@/types/types';
-import { useRouter } from 'next/navigation';
-import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { ReactNode, createContext, useContext, useEffect, useRef, useState } from 'react';
 
 type GameContextType = {
   nextTurn: () => void;
@@ -74,17 +74,31 @@ export const GameProvider = ({ children }: GameProviderProps) => {
       preview: '',
     },
     playerCharacter: {
-      avatar: '/selectionScreen/ca2.png',
-      fullBody: '/battle/c2leticia.png',
-      fullBodyOn: '/battle/c2leticia_on.png',
-      name: 'Letícia',
-      description: 'Operadora de Máquina',
-      preview: '/battle-preview/c2_preview.png',
+      avatar: '',
+      fullBody: '',
+      fullBodyOn: '',
+      name: '',
+      description: '',
+      preview: '',
     },
     role: 'employee',
   });
 
   const router = useRouter();
+
+  const pathname = usePathname();
+  const audioRef = useRef(new Audio('/sounds/background-music.mp3'));
+
+  useEffect(() => {
+    if (pathname === '/objectiveScreen') {
+      audioRef.current.loop = true;
+      audioRef.current.volume = 0.5;
+      audioRef.current.play();
+    }
+    if (pathname === '/battleResult') {
+      audioRef.current.pause();
+    }
+  }, [pathname]);
 
   useEffect(() => {
     if (playerData.role === 'employee') {
@@ -183,7 +197,7 @@ export const GameProvider = ({ children }: GameProviderProps) => {
       adrenaline: 100,
       engagement: 100,
     });
-  }
+  };
 
   return (
     <GameContext.Provider

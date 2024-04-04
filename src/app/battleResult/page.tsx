@@ -8,11 +8,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 const BattleResult = () => {
-  const {
-    selectedBattleBackground,
-    cpuChoice,
-    playerData,
-  } = useGameContext();
+  const { selectedBattleBackground, cpuChoice, playerData } = useGameContext();
 
   const router = useRouter();
 
@@ -30,7 +26,20 @@ const BattleResult = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (cpuChoice.engagement === 10) {
+      new Audio('/sounds/good-result.wav').play();
+    }
+    if (cpuChoice.engagement === 5) {
+      new Audio('/sounds/bad-result.wav').play();
+    }
+    if (cpuChoice.engagement === 0) {
+      new Audio('/sounds/bad-result.wav').play();
+    }
+  }, [cpuChoice]);
+
   const clickHandler = () => {
+    new Audio('/sounds/start-click.wav').play();
     router.push('/mainScreen');
   };
 
@@ -56,7 +65,7 @@ const BattleResult = () => {
       />
       <main className={`${Rounded.className} absolute z-20 h-screen w-screen`}>
         {playerData.role === 'employee' ? (
-          <div className={`w-1/2 mt-10 ml-28 text-white text-[52px] font-extrabold `}>
+          <div className={`w-1/2 mt-14 ml-28 text-white text-[52px] font-extrabold `}>
             {cpuChoice.engagement === 10 && employeeConclusionMsg.goodResult.mainMessage}
             {cpuChoice.engagement === 5 && employeeConclusionMsg.neutralResult.mainMessage}
             {cpuChoice.engagement === 0 && employeeConclusionMsg.badResult.mainMessage}
@@ -75,21 +84,7 @@ const BattleResult = () => {
           src={playerData.playerCharacter.preview}
           alt='character preview'
         />
-        <div className='w-[607px] ml-40 mt-28 px-12 py-6 bg-neutral-50 rounded-3xl border-2 border-blue-600 justify-center items-center gap-2.5 inline-flex'>
-          {playerData.role === 'employee' ? (
-            <div className='text-xl'>
-              {cpuChoice.engagement === 10 && employeeConclusionMsg.goodResult.message}
-              {cpuChoice.engagement === 5 && employeeConclusionMsg.neutralResult.message}
-              {cpuChoice.engagement === 0 && employeeConclusionMsg.badResult.message}
-            </div>
-          ) : (
-            <div className='text-xl'>
-              {cpuChoice.engagement === 10 && employerConclusionMsg.goodResult.message}
-              {cpuChoice.engagement === 5 && employerConclusionMsg.neutralResult.message}
-              {cpuChoice.engagement === 0 && employerConclusionMsg.badResult.message}
-            </div>
-          )}
-        </div>
+        
         <div className='absolute bottom-10 left-[50%] -translate-x-[50%] text-white text-xl'>
           Pressione
           <button

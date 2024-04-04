@@ -4,7 +4,7 @@ import { Rounded } from '@/libs/fonts';
 import { ActionName } from '@/libs/gamepad';
 import { useActionEffect } from '@/libs/input';
 import { useRouter } from 'next/navigation';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 type ObjectiveContainerProps = {
   text: string;
@@ -15,13 +15,23 @@ type ObjectiveContainerProps = {
 
 export const ObjectiveContainer = ({ text, avatar, role, selected }: ObjectiveContainerProps) => {
   const { setPlayerData, playerData } = useGameContext();
+  const [isFirstRender, setIsFirstRender] = useState(true);
+
   const router = useRouter();
+
+  useEffect(() => {
+    if (isFirstRender) {
+      return setIsFirstRender(false);
+    }
+    new Audio('/sounds/select-objective.mp3').play();
+  }, [selected]);
 
   const divRef = useRef<HTMLDivElement>(null);
 
   const clickHandler = () => {
     console.log({ role });
-    
+    new Audio('/sounds/click-avatar-obj.mp3').play();
+
     const receiver = playerData;
     receiver.role = role;
 

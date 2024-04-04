@@ -2,11 +2,15 @@
 
 import { useGameContext } from '@/context/gameContext';
 import { Rounded } from '@/libs/fonts';
-import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
+import { useState, useEffect, useRef } from 'react';
 
 export const Timer = () => {
-  const [time, setTime] = useState(4 * 60);
+  const [time, setTime] = useState(100);
   const { setPlayerData, playerData, setTimeOver, turn } = useGameContext();
+  const audioRef = useRef(new Audio('/sounds/chronometer-ending.mp3'));
+
+  const pathname = usePathname();
 
   useEffect(() => {
     if (time === 0 && turn !== 'conclusion') {
@@ -17,6 +21,11 @@ export const Timer = () => {
     }
     if (turn === 'conclusion') {
       return;
+    }
+    console.log(time);
+
+    if (time === 31) {
+      audioRef.current.play();
     }
 
     if (time > 0) {
@@ -29,7 +38,10 @@ export const Timer = () => {
 
   useEffect(() => {
     if (turn === 'firstTurn') {
-      setTime(4 * 60);
+      setTime(2 * 60);
+    }
+    if(turn === 'conclusion'){
+      audioRef.current.pause();
     }
     setPlayerData({ ...playerData, time: `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}` });
   }, [turn]);

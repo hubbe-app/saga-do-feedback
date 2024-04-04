@@ -5,7 +5,7 @@ import { Rounded } from '@/libs/fonts';
 import { ActionName } from '@/libs/gamepad';
 import { useActionEffect } from '@/libs/input';
 import { Option } from '@/types/types';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 type PlayerDialogBallonProps = Option & {
   selected: boolean;
@@ -13,6 +13,15 @@ type PlayerDialogBallonProps = Option & {
 
 export const PlayerDialogBallon = ({ dialog, adrenaline, engagement, selected }: PlayerDialogBallonProps) => {
   const { playerData, setPlayerData, nextTurn, setIsOptionsVisible } = useGameContext();
+  const [isFirstRender, setIsFirstRender] = useState(true);
+
+
+  useEffect(() => {
+    if (isFirstRender) {
+      return setIsFirstRender(false);
+    }
+    new Audio('/sounds/select-answer.mp3').play();
+  }, [selected]);
 
   const divRef = useRef<HTMLDivElement>(null);
 
@@ -34,6 +43,9 @@ export const PlayerDialogBallon = ({ dialog, adrenaline, engagement, selected }:
   );
 
   const clickHandler = () => {
+
+    new Audio('/sounds/click-answer.mp3').play();
+
     const receiver = playerData;
     receiver.adrenaline = [...playerData.adrenaline, adrenaline];
     receiver.engagement = [...playerData.engagement, engagement];
