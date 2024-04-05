@@ -7,19 +7,35 @@ import { useActionEffect, useAxisEffect } from '@/libs/input';
 import { useCycleValue } from '@/libs/math';
 import { CharacterType } from '@/types/types';
 import Image from 'next/image';
-import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 const CharSelection = () => {
-  const { playerData } = useGameContext();
+  const { playerData, setPlayerData } = useGameContext();
+  const router = useRouter();
 
   const [selectedIndex, bumpUpIndex, bumpDownIndex] = useCycleValue(0, 0, 3);
 
-  useEffect(() => {
-    console.log(selectedIndex);
-  }, [selectedIndex]);
-
   useActionEffect(ActionName.MoveRight, () => bumpUpIndex(), [selectedIndex]);
   useActionEffect(ActionName.MoveLeft, () => bumpDownIndex(), [selectedIndex]);
+
+  useActionEffect(
+    ActionName.Confirm,
+    () => {
+      new Audio('/sounds/click-avatar-obj.mp3').play();
+
+      if (playerData.role === 'employee') {
+        setPlayerData({ ...playerData, playerCharacter: employeeCharacters[selectedIndex] });
+      } else {
+        const receiver = playerData;
+
+        receiver.playerCharacter = employerCharacters[selectedIndex];
+        setPlayerData(receiver);
+      }
+
+      router.push('/battlePreview');
+    },
+    [selectedIndex]
+  );
 
   return (
     <>

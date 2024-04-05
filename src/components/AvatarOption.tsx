@@ -1,8 +1,6 @@
 'use client';
 import { useGameContext } from '@/context/gameContext';
 import { Rounded } from '@/libs/fonts';
-import { ActionName } from '@/libs/gamepad';
-import { useActionEffect } from '@/libs/input';
 import { CharacterType } from '@/types/types';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
@@ -29,25 +27,12 @@ export const AvatarOption = ({ character, selected }: AvatarOptionProps) => {
 
   useEffect(() => {
     if (selected && divRef.current) {
-      console.log(character.name, divRef.current);
-
       divRef.current.focus();
-      console.log(character.name, selected);
     }
   }, [selected]);
 
-  useActionEffect(
-    ActionName.Confirm,
-    () => {
-      console.log(character.name, 'confirmando action');
-
-      clickHandler();
-    },
-    []
-  );
-
+ 
   const clickHandler = () => {
-    console.log(character);
     new Audio('/sounds/click-avatar-obj.mp3').play();
 
     setPlayerData({ ...playerData, playerCharacter: character });

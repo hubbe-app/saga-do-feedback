@@ -17,7 +17,7 @@ export const useClampValue = (value: number, min: number, max: number, step: num
    ];
 }
 
-export const useCycleValue = (value: number, min: number, max: number, step: number = 1): [number, () => void, () => void] => {
+export const useCycleValue = (value: number, min: number, max: number, step: number = 1): [number, () => void, () => void, (value: number) => void] => {
    const [_value, setValue] = useState(value);
    const bumpUp = () => {
       const newValue = _value + step;
@@ -27,5 +27,5 @@ export const useCycleValue = (value: number, min: number, max: number, step: num
       const newValue = _value - step;
       setValue(newValue < min ? max : newValue);
    };
-   return [_value, bumpUp, bumpDown];
+   return [_value, bumpUp, bumpDown, setValue];
 }

@@ -89,7 +89,20 @@ export const actionMap: InputMapperConfig = {
       [ActionName.Option3]: {
          "keyboard": ["6"],
          "gamepad": []
-      }
+      },
+      [ActionName.ButtonY]: {
+         "keyboard": ["Y"],
+         "gamepad": [3]
+      },
+      [ActionName.ButtonX]: {
+         "keyboard": ["X"],
+         "gamepad": [2]
+      },
+      [ActionName.ButtonB]: {
+         "keyboard": ["B"],
+         "gamepad": [1]
+      },
+      
    }
 }
 
@@ -180,6 +193,16 @@ export const useActionEffect = (action: ActionName, callback: ActionCallback, de
    useEffect(() => {
       inputMapper.setActionCallback(action, callback);
       return () => inputMapper.removeActionCallback(action);
+   }, deps);
+}
+
+export const useComboEffect = (actions: ActionName[], callback: ActionCallback, deps: any[] = []) => {
+   useEffect(() => {
+      actions.forEach((action)=>{
+         inputMapper.setActionCallback(action, callback);
+      });
+      
+      return () => actions.forEach((action)=>{inputMapper.removeActionCallback(action)});
    }, deps);
 }
 

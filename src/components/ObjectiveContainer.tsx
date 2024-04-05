@@ -29,7 +29,6 @@ export const ObjectiveContainer = ({ text, avatar, role, selected }: ObjectiveCo
   const divRef = useRef<HTMLDivElement>(null);
 
   const clickHandler = () => {
-    console.log({ role });
     new Audio('/sounds/click-avatar-obj.mp3').play();
 
     const receiver = playerData;
@@ -42,20 +41,10 @@ export const ObjectiveContainer = ({ text, avatar, role, selected }: ObjectiveCo
   useEffect(() => {
     if (selected && divRef.current) {
       divRef.current.focus();
-      console.log(text, selected);
     }
   }, [selected]);
 
-  useActionEffect(
-    ActionName.Confirm,
-    () => {
-      console.log(role, 'confirmou');
-
-      clickHandler();
-    },
-    []
-  );
-
+ 
   return (
     <div
       onClick={clickHandler}

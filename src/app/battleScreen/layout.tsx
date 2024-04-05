@@ -20,6 +20,7 @@ export default function RootLayout({
     playerData,
     selectedBattleBackground,
     setSelectedBattleBackground,
+    sendPowerUp
   } = useGameContext();
 
   useEffect(() => {
@@ -53,7 +54,7 @@ export default function RootLayout({
           <Thermometer type='engagement' value={averageEngagement} />
         </div>
       </div>
-      <PowerUp />
+      {sendPowerUp && <PowerUp />}
       {children}
     </div>
   );

@@ -11,13 +11,14 @@ const BattlePreview = () => {
   const router = useRouter();
 
   useEffect(() => {
+    new Audio('/sounds/battle-preview.mp3').play();
     const timer = setTimeout(() => {
       router.push('/battleScreen');
     }, 5000);
 
     return () => clearTimeout(timer);
   }, []);
-  
+
   return (
     <>
       <Image

@@ -28,19 +28,8 @@ export const PlayerDialogBallon = ({ dialog, adrenaline, engagement, selected }:
   useEffect(() => {
     if (selected && divRef.current) {
       divRef.current.focus();
-      console.log(dialog, selected);
     }
   }, [selected]);
-
-  useActionEffect(
-    ActionName.Confirm,
-    () => {
-      console.log(dialog, 'confirmando action');
-
-      clickHandler();
-    },
-    []
-  );
 
   const clickHandler = () => {
 

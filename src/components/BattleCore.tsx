@@ -14,15 +14,15 @@ export const BattleCore = () => {
   const router = useRouter();
 
   useEffect(() => {
+    if (playerData.role === 'employee') {
+      setCurrentOptions(employeeGame[turn].employee as Option[]);
+    } else {
+      setCurrentOptions(employerGame[turn].employer as Option[]);
+    }
     if (turn === 'firstTurn') {
       const timer = setTimeout(() => {
         setIsOptionsVisible(true);
       }, 3000);
-      if (playerData.role === 'employee') {
-        setCurrentOptions(employeeGame[turn].employee as Option[]);
-      } else {
-        setCurrentOptions(employerGame[turn].employer as Option[]);
-      }
 
       return () => clearTimeout(timer);
     }
@@ -32,11 +32,6 @@ export const BattleCore = () => {
     }
     if (playerData.name === '') {
       router.push('/mainScreen');
-    }
-    if (playerData.role === 'employee') {
-      setCurrentOptions(employeeGame[turn].employee as Option[]);
-    } else {
-      setCurrentOptions(employerGame[turn].employer as Option[]);
     }
   }, [turn]);
 

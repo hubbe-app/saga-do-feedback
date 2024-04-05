@@ -3,6 +3,8 @@
 import { useGameContext } from '@/context/gameContext';
 import { Rounded } from '@/libs/fonts';
 import { employeeConclusionMsg, employerConclusionMsg } from '@/libs/gameData';
+import { ActionName } from '@/libs/gamepad';
+import { useActionEffect, useComboEffect } from '@/libs/input';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
@@ -11,6 +13,14 @@ const BattleResult = () => {
   const { selectedBattleBackground, cpuChoice, playerData } = useGameContext();
 
   const router = useRouter();
+
+  useActionEffect(
+    ActionName.Confirm,
+    () => {
+      clickHandler();
+    },
+    []
+  );
 
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
@@ -31,7 +41,7 @@ const BattleResult = () => {
       new Audio('/sounds/good-result.wav').play();
     }
     if (cpuChoice.engagement === 5) {
-      new Audio('/sounds/bad-result.wav').play();
+      new Audio('/sounds/neutral-result.wav').play();
     }
     if (cpuChoice.engagement === 0) {
       new Audio('/sounds/bad-result.wav').play();
@@ -65,7 +75,7 @@ const BattleResult = () => {
       />
       <main className={`${Rounded.className} absolute z-20 h-screen w-screen`}>
         {playerData.role === 'employee' ? (
-          <div className={`w-1/2 mt-14 ml-28 text-white text-[52px] font-extrabold `}>
+          <div className={`w-1/2 mt-20 ml-28 text-white text-[52px] font-extrabold `}>
             {cpuChoice.engagement === 10 && employeeConclusionMsg.goodResult.mainMessage}
             {cpuChoice.engagement === 5 && employeeConclusionMsg.neutralResult.mainMessage}
             {cpuChoice.engagement === 0 && employeeConclusionMsg.badResult.mainMessage}
@@ -84,7 +94,7 @@ const BattleResult = () => {
           src={playerData.playerCharacter.preview}
           alt='character preview'
         />
-        
+
         <div className='absolute bottom-10 left-[50%] -translate-x-[50%] text-white text-xl'>
           Pressione
           <button
