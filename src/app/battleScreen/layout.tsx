@@ -12,12 +12,19 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { averageAdrenaline, setAverageAdrenaline, averageEngagement, setAverageEngagement, playerData } =
-    useGameContext();
-  const [selectedBackground, setSelectedBackground] = useState('');
+  const {
+    averageAdrenaline,
+    setAverageAdrenaline,
+    averageEngagement,
+    setAverageEngagement,
+    playerData,
+    selectedBattleBackground,
+    setSelectedBattleBackground,
+    sendPowerUp
+  } = useGameContext();
 
   useEffect(() => {
-    setSelectedBackground(backgrounds[Math.floor(Math.random() * backgrounds.length)]);
+    setSelectedBattleBackground(backgrounds[Math.floor(Math.random() * backgrounds.length)]);
   }, []);
 
   useEffect(() => {
@@ -27,11 +34,11 @@ export default function RootLayout({
 
   return (
     <div className='flex flex-col absolute inset-0 overflow-hidden'>
-      {selectedBackground && (
+      {selectedBattleBackground && (
         <Image
           width={3000}
           height={2000}
-          src={selectedBackground}
+          src={selectedBattleBackground}
           className='absolute -z-40 bg-contain bg-center w-screen h-screen brightness-50 opacity-80'
           alt='background'
         />
@@ -47,7 +54,7 @@ export default function RootLayout({
           <Thermometer type='engagement' value={averageEngagement} />
         </div>
       </div>
-      <PowerUp />
+      {sendPowerUp && <PowerUp />}
       {children}
     </div>
   );

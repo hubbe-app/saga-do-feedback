@@ -3,11 +3,12 @@
 import { average } from '@/libs/avarege';
 import { TurnsType, employeeCharacters, employerCharacters, turns } from '@/libs/gameData';
 import { CharacterType, Option, RankingType } from '@/types/types';
-import { useRouter } from 'next/navigation';
-import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { ReactNode, createContext, useContext, useEffect, useRef, useState } from 'react';
 
 type GameContextType = {
   nextTurn: () => void;
+  gameReset: () => void;
   playerData: PlayerDataType;
   setPlayerData: (e: PlayerDataType) => void;
   timeOver: boolean;
@@ -24,6 +25,8 @@ type GameContextType = {
   setCpuChoice: (e: Option) => void;
   turn: TurnsType;
   setTurn: (e: TurnsType) => void;
+  selectedBattleBackground: string;
+  setSelectedBattleBackground: (e: string) => void;
 };
 
 export const GameContext = createContext<GameContextType | null>(null);
@@ -50,37 +53,52 @@ export const GameProvider = ({ children }: GameProviderProps) => {
   const [averageAdrenaline, setAverageAdrenaline] = useState(0);
   const [averageEngagement, setAverageEngagement] = useState(0);
   const [turn, setTurn] = useState<TurnsType>('firstTurn');
+  const [selectedBattleBackground, setSelectedBattleBackground] = useState('');
   const [cpuChoice, setCpuChoice] = useState<Option>({
     dialog: '',
     adrenaline: 100,
     engagement: 100,
   });
   const [playerData, setPlayerData] = useState<PlayerDataType>({
-    name: 'Vinícius',
+    name: '',
     score: '',
     engagement: [],
     adrenaline: [],
     time: '',
     cpuCharacter: {
-      avatar: '/selectionScreen/ga2.png',
-      fullBody: '/battle/g2ana.png',
-      fullBodyOn: '/battle/g2ana_on.png',
-      name: 'Ana',
-      description: 'Gestora de RH',
-      preview:''
+      avatar: '',
+      fullBody: '',
+      fullBodyOn: '',
+      name: '',
+      description: '',
+      preview: '',
     },
     playerCharacter: {
-      avatar: '/selectionScreen/ca2.png',
-      fullBody: '/battle/c2leticia.png',
-      fullBodyOn: '/battle/c2leticia_on.png',
-      name: 'Letícia',
-      description: 'Operadora de Máquina',
-      preview:''
+      avatar: '',
+      fullBody: '',
+      fullBodyOn: '',
+      name: '',
+      description: '',
+      preview: '',
     },
     role: 'employee',
   });
 
   const router = useRouter();
+
+  const pathname = usePathname();
+  const audioRef = useRef(new Audio('/sounds/background-music.mp3'));
+
+  useEffect(() => {
+    if (pathname === '/objectiveScreen') {
+      audioRef.current.loop = true;
+      audioRef.current.volume = 0.5;
+      audioRef.current.play();
+    }
+    if (pathname === '/battleResult') {
+      audioRef.current.pause();
+    }
+  }, [pathname]);
 
   useEffect(() => {
     if (playerData.role === 'employee') {
@@ -97,7 +115,7 @@ export const GameProvider = ({ children }: GameProviderProps) => {
   }, [playerData.role]);
 
   useEffect(() => {
-    if (turn === 'thirdTurn' || turn === 'fourthTurn' || turn === 'fifthTurn') {
+    if (turn === 'thirdTurn' || turn === 'fourthTurn') {
       const luckyNum = Math.random() * 10;
 
       if (luckyNum > 0) {
@@ -105,7 +123,7 @@ export const GameProvider = ({ children }: GameProviderProps) => {
       }
     }
 
-    if (turn === 'conclusion') {
+    if (turn === 'conclusion' || turn === 'firstTurn') {
       return;
     }
     const timer = setTimeout(() => {
@@ -116,7 +134,7 @@ export const GameProvider = ({ children }: GameProviderProps) => {
   }, [turn]);
 
   useEffect(() => {
-    if (cpuChoice?.engagement === 5 || cpuChoice?.engagement === 10 || cpuChoice?.engagement === 0) {
+    if (turn === 'conclusion') {
       const score = Math.abs(average({ values: playerData.engagement }) - average({ values: playerData.adrenaline }));
 
       const rankingList: RankingType[] = JSON.parse(localStorage.getItem('rankingList') || '[]');
@@ -133,9 +151,7 @@ export const GameProvider = ({ children }: GameProviderProps) => {
         rankingList.push({ name: playerData.name, score: '0', time: playerData.time });
       }
       localStorage.setItem('rankingList', JSON.stringify(rankingList));
-      setTimeout(() => {
-        router.push('/mainScreen');
-      }, 5000);
+      router.push('/battleResult');
     }
   }, [cpuChoice]);
 
@@ -148,10 +164,46 @@ export const GameProvider = ({ children }: GameProviderProps) => {
     }
   };
 
+  const gameReset = () => {
+    setTurn('firstTurn');
+    setPlayerData({
+      name: '',
+      score: '',
+      engagement: [],
+      adrenaline: [],
+      time: '',
+      cpuCharacter: {
+        avatar: '',
+        fullBody: '',
+        fullBodyOn: '',
+        name: '',
+        description: '',
+        preview: '',
+      },
+      playerCharacter: {
+        avatar: '',
+        fullBody: '',
+        fullBodyOn: '',
+        name: '',
+        description: '',
+        preview: '',
+      },
+      role: 'employee',
+    });
+    setAverageAdrenaline(0);
+    setAverageEngagement(0);
+    setCpuChoice({
+      dialog: '',
+      adrenaline: 100,
+      engagement: 100,
+    });
+  };
+
   return (
     <GameContext.Provider
       value={{
         nextTurn,
+        gameReset,
         playerData,
         setPlayerData,
         timeOver,
@@ -168,6 +220,8 @@ export const GameProvider = ({ children }: GameProviderProps) => {
         setCpuChoice,
         turn,
         setTurn,
+        selectedBattleBackground,
+        setSelectedBattleBackground,
       }}
     >
       {children}

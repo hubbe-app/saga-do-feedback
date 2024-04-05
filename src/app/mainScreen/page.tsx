@@ -2,13 +2,15 @@
 
 import { Ranking, RegisterForm } from '@/components';
 import { useGameContext } from '@/context/gameContext';
-import { ActionName } from '@/libs/gamepad';
-import { useActionEffect } from '@/libs/input';
-import { useGamepad } from '@/libs/newGamepad';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 const MainScreen = () => {
+  const { gameReset } = useGameContext();
+
+  useEffect(() => {
+    gameReset();
+  }, []);
 
   return (
     <>
@@ -23,11 +25,11 @@ const MainScreen = () => {
       </div>
       <div className='flex justify-center h-screen w-screen overflow-hidden'>
         <div className='flex flex-col items-start justify-start max-w-[45%]'>
-          <Image width={1218} height={546} src={'/logo.svg'} className='w-[80%] mt-12 mb-6' alt='logo' />
+          <img src={'/logo.svg'} className='w-[80%] mt-12 mb-6' alt='logo' />
           <RegisterForm />
           <div className='flex gap-20 justify-start max-h-44 w-full'>
-            <Image width={199} height={176} src={'/logo-hubbe-png.png'} className='h-full aspect-video' alt='Hubbe' />
-            <Image width={3500} height={2400} src={'logo-fstate.svg'} className='h-full w-[50%]' alt='Fluid State' />
+            <img src={'/logo-hubbe-png.png'} className='h-full aspect-auto' alt='Hubbe' />
+            <img src={'logo-fstate.svg'} className='h-full w-[50%]' alt='Fluid State' />
           </div>
         </div>
         <div className='mt-96'>

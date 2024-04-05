@@ -1,4 +1,4 @@
-import { GameType, PowerUpType, CharacterType } from "../types/types";
+import { GameType, PowerUpType, CharacterType } from '../types/types';
 
 export type TurnsType = 'firstTurn' | 'secondTurn' | 'thirdTurn' | 'fourthTurn' | 'fifthTurn' | 'conclusion';
 
@@ -366,6 +366,42 @@ export const employerGame: GameType = {
   },
 };
 
+export const employeeConclusionMsg = {
+  goodResult: {
+    mainMessage: 'Parabéns! Sua dedicação e competência resultaram em uma merecida promoção.',
+    message:
+      'Com base em suas respostas, fica evidente seu comprometimento com a eficiência e a colaboração. Sua abordagem proativa para resolver desafios, junto com a valorização do equilíbrio entre vida profissional e pessoal, é notável. Além disso, sua atitude positiva em relação ao aprendizado contínuo e a capacidade de lidar construtivamente com o feedback destacam seu profissionalismo exemplar. Essas qualidades contribuem significativamente para um ambiente de trabalho produtivo.',
+  },
+  neutralResult: {
+    mainMessage: 'Avaliar alguns pontos, como sua iniciativa na gestão do tempo, priorização de tarefas e protagonismo na carreira, será importante para seu progresso e uma possível promoção.',
+    message:
+      'Analisando suas respostas, identificamos uma oportunidade para fortalecer o protagonismo na sua carreira. Sugerimos uma abordagem mais ativa na gestão do tempo, utilizando métodos eficazes e aprimorando a priorização de tarefas para atingir prazos com mais consistência. Além disso, desenvolver habilidades para expressar preocupações ou insatisfações de maneira mais aberta pode contribuir para um ambiente de trabalho mais colaborativo e resolutivo. Estamos confiantes de que, com ajustes nessas áreas, você poderá maximizar seu potencial e impacto positivo na equipe.',
+  },
+  badResult: {
+    mainMessage: 'Sua abordagem reativa diante dos desafios e a falta de desenvolvimento de competências têm sido limitantes em sua busca por progresso na carreira.',
+    message:
+      'Analisando suas respostas, identificamos uma oportunidade para fortalecer o protagonismo na sua carreira. Sugerimos uma abordagem mais ativa na gestão do tempo, utilizando métodos eficazes e aprimorando a priorização de tarefas para atingir prazos com mais consistência. Além disso, desenvolver habilidades para expressar preocupações ou insatisfações de maneira mais aberta pode contribuir para um ambiente de trabalho mais colaborativo e resolutivo. Estamos confiantes de que, com ajustes nessas áreas, você poderá maximizar seu potencial e impacto positivo na equipe.',
+  },
+};
+
+export const employerConclusionMsg = {
+  goodResult: {
+    mainMessage: 'Parabéns! Sua liderança demonstra uma abordagem flexível somada à habilidade em equilibrar pressão por resultados e bem-estar da equipe, um compromisso sólido com os valores pessoais e organizacionais.',
+    message:
+      'Suas respostas refletem uma liderança inspiradora e eficaz. Sua abordagem aberta a novas ideias e estímulo à criatividade destacam-se positivamente. Além disso, reconhecer constantemente o bom trabalho da equipe e promover um ambiente de aprendizado contínuo demonstram seu compromisso com o desenvolvimento profissional. Sua habilidade em equilibrar pressão por resultados e bem-estar da equipe é uma qualidade valiosa. Sua liderança é um exemplo inspirador para a equipe.',
+  },
+  neutralResult: {
+    mainMessage: 'Adotar uma postura mais flexível e encorajar a criatividade da equipe pode fortalecer sua liderança!',
+    message:
+      'Analisando suas respostas, notamos uma tendência a manter uma abordagem tradicional em várias situações. Para otimizar a liderança, sugerimos maior flexibilidade para abraçar ideias inovadoras e encorajar a criatividade da equipe. Além disso, ao lidar com desafios, buscar soluções práticas pode melhorar a eficácia em alcançar metas. Essas adaptações contribuiriam para uma liderança mais dinâmica e eficiente.',
+  },
+  badResult: {
+    mainMessage: 'Sua liderança parece estar desconectada dos valores pessoais e organizacionais, o que pode afetar negativamente o ambiente de trabalho e a eficácia da equipe.',
+    message:
+      'Analisando suas respostas, notamos uma tendência a manter uma abordagem tradicional em várias situações. Para otimizar a liderança, sugerimos maior flexibilidade para abraçar ideias inovadoras e encorajar a criatividade da equipe. Além disso, ao lidar com desafios, buscar soluções práticas pode melhorar a eficácia em alcançar metas. Essas adaptações contribuiriam para uma liderança mais dinâmica e eficiente.',
+  },
+};
+
 export const powerUps: PowerUpType[] = [
   {
     img: '/powerUps/p1.png',
@@ -391,7 +427,7 @@ export const employeeCharacters: CharacterType[] = [
     fullBodyOn: '/battle/c1joao_pedro_on.png',
     name: 'João Pedro',
     description: 'Analista de Manutenção',
-    preview: '/battle-preview/c1_preview.png'
+    preview: '/battle-preview/c1_preview.png',
   },
   {
     avatar: '/selection-screen/ca2.png',
@@ -399,7 +435,7 @@ export const employeeCharacters: CharacterType[] = [
     fullBodyOn: '/battle/c2leticia_on.png',
     name: 'Letícia',
     description: 'Operadora de Máquina',
-    preview: '/battle-preview/c2_preview.png'
+    preview: '/battle-preview/c2_preview.png',
   },
   {
     avatar: '/selection-screen/ca3.png',
@@ -407,7 +443,7 @@ export const employeeCharacters: CharacterType[] = [
     fullBodyOn: '/battle/c3paula_on.png',
     name: 'Paula',
     description: 'Analista de Marketing',
-    preview: '/battle-preview/c3_preview.png'
+    preview: '/battle-preview/c3_preview.png',
   },
   {
     avatar: '/selection-screen/ca4.png',
@@ -415,7 +451,7 @@ export const employeeCharacters: CharacterType[] = [
     fullBodyOn: '/battle/c4vinicius_on.png',
     name: 'Vinícius',
     description: 'Analista de P&D',
-    preview: '/battle-preview/c4_preview.png'
+    preview: '/battle-preview/c4_preview.png',
   },
 ];
 export const employerCharacters: CharacterType[] = [
@@ -425,7 +461,7 @@ export const employerCharacters: CharacterType[] = [
     fullBodyOn: '/battle/g1marcia_on.png',
     name: 'Márcia',
     description: 'Líder de Equipe',
-    preview: '/battle-preview/g1_preview.png'
+    preview: '/battle-preview/g1_preview.png',
   },
   {
     avatar: '/selection-screen/ga2.png',
@@ -433,7 +469,7 @@ export const employerCharacters: CharacterType[] = [
     fullBodyOn: '/battle/g2ana_on.png',
     name: 'Ana',
     description: 'Gestora de RH',
-    preview: '/battle-preview/g2_preview.png'
+    preview: '/battle-preview/g2_preview.png',
   },
   {
     avatar: '/selection-screen/ga3.png',
@@ -441,7 +477,7 @@ export const employerCharacters: CharacterType[] = [
     fullBodyOn: '/battle/g3marcelo_on.png',
     name: 'Marcelo',
     description: 'Coordenador Financeiro',
-    preview: '/battle-preview/g3_preview.png'
+    preview: '/battle-preview/g3_preview.png',
   },
   {
     avatar: '/selection-screen/ga4.png',
@@ -449,6 +485,6 @@ export const employerCharacters: CharacterType[] = [
     fullBodyOn: '/battle/g4rafael_on.png',
     name: 'Rafael',
     description: 'Diretor Industrial',
-    preview: '/battle-preview/g4_preview.png'
+    preview: '/battle-preview/g4_preview.png',
   },
 ];

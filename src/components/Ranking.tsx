@@ -10,22 +10,25 @@ export const Ranking = () => {
   useEffect(() => {
     setRankingData(JSON.parse(localStorage.getItem('rankingList') || '[]'));
   }, []);
-
+ 
   const sortedRanking = rankingData
-    .sort((a, b) => {
-      if (parseInt(a.score) !== parseInt(b.score)) {
-        return parseInt(b.score) - parseInt(a.score);
-      }
+  .sort((a, b) => {
+    const scoreA = isNaN(parseInt(a.score)) ? 0 : parseInt(a.score);
+    const scoreB = isNaN(parseInt(b.score)) ? 0 : parseInt(b.score);
 
-      const [aMinutes, aSeconds] = a.time.split(':').map((num) => parseInt(num));
-      const [bMinutes, bSeconds] = b.time.split(':').map((num) => parseInt(num));
+    if (scoreA !== scoreB) {
+      return scoreB - scoreA;
+    }
 
-      const aTotalSeconds = aMinutes * 60 + aSeconds;
-      const bTotalSeconds = bMinutes * 60 + bSeconds;
+    const [aMinutes, aSeconds] = a.time.split(':').map((num) => parseInt(num));
+    const [bMinutes, bSeconds] = b.time.split(':').map((num) => parseInt(num));
 
-      return bTotalSeconds - aTotalSeconds;
-    })
-    .slice(0, 10);
+    const aTotalSeconds = aMinutes * 60 + aSeconds;
+    const bTotalSeconds = bMinutes * 60 + bSeconds;
+
+    return bTotalSeconds - aTotalSeconds;
+  })
+  .slice(0, 10);
 
   return (
     <div className='flex flex-col gap-2 justify-start items-center w-72 min-h-[456px] bg-gray-900 bg-opacity-80 text-white rounded-3xl p-3'>
