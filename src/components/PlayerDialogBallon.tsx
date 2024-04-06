@@ -10,7 +10,7 @@ type PlayerDialogBallonProps = Option & {
 };
 
 export const PlayerDialogBallon = ({ dialog, adrenaline, engagement, selected }: PlayerDialogBallonProps) => {
-  const { playerData, setPlayerData, nextTurn, setIsOptionsVisible } = useGameContext();
+  const { playerData, setPlayerData, nextTurn, setIsOptionsVisible, isOptionsVisible } = useGameContext();
   const [isFirstRender, setIsFirstRender] = useState(true);
 
   useEffect(() => {
@@ -31,6 +31,10 @@ export const PlayerDialogBallon = ({ dialog, adrenaline, engagement, selected }:
   }, [selected]);
 
   const clickHandler = () => {
+    if (!isOptionsVisible) {
+      return;
+    }
+
     if (typeof window !== 'undefined') {
       new Audio('/sounds/click-answer.mp3').play();
     }

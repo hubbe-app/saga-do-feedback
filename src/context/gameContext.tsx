@@ -89,20 +89,18 @@ export const GameProvider = ({ children }: GameProviderProps) => {
   const pathname = usePathname();
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  if (typeof window !== 'undefined') {
-    audioRef.current = new Audio('/sounds/background-music.mp3');
-  }
-
   useEffect(() => {
-    if (audioRef.current) {
-      if (pathname === '/objectiveScreen') {
+    if (pathname === '/objectiveScreen') {
+      if (typeof window !== 'undefined') {
+        audioRef.current = new Audio('/sounds/background-music.mp3');
+
         audioRef.current.loop = true;
         audioRef.current.volume = 0.5;
         audioRef.current?.play();
       }
     }
-    if (pathname === '/battleResult') {
-      audioRef.current?.pause();
+    if (pathname === '/battleResult' && audioRef.current) {
+      audioRef.current.pause();
     }
   }, [pathname]);
 

@@ -14,13 +14,31 @@ type PlayerDialogOptionsProps = {
 };
 
 export const PlayerDialogOptions = ({ options, cpuQuestion }: PlayerDialogOptionsProps) => {
-  const { playerData, turn, setPlayerData, nextTurn, setIsOptionsVisible } = useGameContext();
+  const { playerData, turn, setPlayerData, nextTurn, setIsOptionsVisible, isOptionsVisible } = useGameContext();
   const [randomizedOptions, setRandomizedOptions] = useState<Option[]>([]);
 
   const [selectedIndex, bumpUpIndex, bumpDownIndex, setSelectedIndex] = useCycleValue(0, 0, 2);
 
-  useActionEffect(ActionName.MoveDown, () => bumpUpIndex(), [selectedIndex]);
-  useActionEffect(ActionName.MoveUp, () => bumpDownIndex(), [selectedIndex]);
+  useActionEffect(
+    ActionName.MoveDown,
+    () => {
+      if (!isOptionsVisible) {
+        return;
+      }
+      bumpUpIndex();
+    },
+    [selectedIndex, isOptionsVisible]
+  );
+  useActionEffect(
+    ActionName.MoveUp,
+    () => {
+      if (!isOptionsVisible) {
+        return;
+      }
+      bumpDownIndex();
+    },
+    [selectedIndex, isOptionsVisible]
+  );
 
   useEffect(() => {
     setSelectedIndex(0);
@@ -33,6 +51,10 @@ export const PlayerDialogOptions = ({ options, cpuQuestion }: PlayerDialogOption
   useActionEffect(
     ActionName.Confirm,
     () => {
+      if (!isOptionsVisible) {
+        return;
+      }
+
       new Audio('/sounds/click-answer.mp3').play();
 
       const receiver = playerData;
@@ -43,7 +65,7 @@ export const PlayerDialogOptions = ({ options, cpuQuestion }: PlayerDialogOption
       nextTurn();
       setIsOptionsVisible(false);
     },
-    [selectedIndex, randomizedOptions]
+    [selectedIndex, randomizedOptions, isOptionsVisible]
   );
 
   return (
