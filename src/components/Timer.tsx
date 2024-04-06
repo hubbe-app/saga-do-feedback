@@ -7,8 +7,11 @@ import { useState, useEffect, useRef } from 'react';
 export const Timer = () => {
   const [time, setTime] = useState(2 * 60);
   const { setPlayerData, playerData, setTimeOver, turn } = useGameContext();
-  const audioRef = useRef(new Audio('/sounds/chronometer-ending.mp3'));
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
+  if (typeof window !== 'undefined') {
+    audioRef.current = new Audio('/sounds/chronometer-ending.mp3');
+  }
 
   useEffect(() => {
     if (time === 0 && turn !== 'conclusion') {
@@ -22,7 +25,7 @@ export const Timer = () => {
     }
 
     if (time === 31) {
-      audioRef.current.play();
+      audioRef.current?.play();
     }
 
     if (time > 0) {
@@ -37,8 +40,8 @@ export const Timer = () => {
     if (turn === 'firstTurn') {
       setTime(2 * 60);
     }
-    if(turn === 'conclusion'){
-      audioRef.current.pause();
+    if (turn === 'conclusion') {
+      audioRef.current?.pause();
     }
     setPlayerData({ ...playerData, time: `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}` });
   }, [turn]);

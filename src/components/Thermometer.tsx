@@ -1,3 +1,5 @@
+'use client'
+
 type ProgressBarProps = {
   value: number;
   type: 'engagement' | 'adrenaline';

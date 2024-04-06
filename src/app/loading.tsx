@@ -1,13 +1,11 @@
-import Image from "next/image";
+'use client'
 
 const LoadingPage = () => {
   return (
     <>
       <div className='h-full w-full flex flex-col justify-center items-center overflow-hidden'>
       <div className='absolute -z-20 top-0 left-0 w-screen h-screen bg-slate-950 overflow-hidden'>
-        <Image
-          width={3000}
-          height={2000}
+        <img
           src={'/bg_inicial.jpg'}
           className='absolute -z-10 bg-contain bg-center w-screen h-screen opacity-50'
           alt='background'

@@ -1,3 +1,5 @@
+'use client'
+
 import { Rounded } from "@/libs/fonts";
 
 type DialogBallonProps = {

@@ -4,8 +4,7 @@ import { useGameContext } from '@/context/gameContext';
 import { Rounded } from '@/libs/fonts';
 import { employeeConclusionMsg, employerConclusionMsg } from '@/libs/gameData';
 import { ActionName } from '@/libs/gamepad';
-import { useActionEffect, useComboEffect } from '@/libs/input';
-import Image from 'next/image';
+import { useActionEffect } from '@/libs/input';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
@@ -37,28 +36,30 @@ const BattleResult = () => {
   }, []);
 
   useEffect(() => {
-    if (cpuChoice.engagement === 10) {
-      new Audio('/sounds/good-result.wav').play();
-    }
-    if (cpuChoice.engagement === 5) {
-      new Audio('/sounds/neutral-result.wav').play();
-    }
-    if (cpuChoice.engagement === 0) {
-      new Audio('/sounds/bad-result.wav').play();
+    if (typeof window !== 'undefined') {
+      if (cpuChoice.engagement === 10) {
+        new Audio('/sounds/good-result.wav').play();
+      }
+      if (cpuChoice.engagement === 5) {
+        new Audio('/sounds/neutral-result.wav').play();
+      }
+      if (cpuChoice.engagement === 0) {
+        new Audio('/sounds/bad-result.mp3').play();
+      }
     }
   }, [cpuChoice]);
 
   const clickHandler = () => {
-    new Audio('/sounds/start-click.wav').play();
+    if (typeof window !== 'undefined') {
+      new Audio('/sounds/start-click.wav').play();
+    }
     router.push('/mainScreen');
   };
 
   return (
     <>
       {selectedBattleBackground && (
-        <Image
-          width={3000}
-          height={2000}
+        <img
           src={selectedBattleBackground}
           className='absolute -z-40 bg-contain bg-center w-screen h-screen brightness-50 opacity-80'
           alt='background'

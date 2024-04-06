@@ -1,5 +1,11 @@
 'use client';
 
+declare global {
+  interface WindowEventMap extends Record<string, Event> {
+    gamepadbuttonup: GamepadButtonUpEvent;
+    gamepadaxis: GamepadAxisEvent;
+  }
+}
 export class GamepadButtonDownEvent extends Event {
   public gamepadIndex: number;
   public buttonIndex: number;
@@ -69,7 +75,6 @@ class GamepadHandler {
   private gamepads: { [index: number]: Gamepad } = {};
   private previousButtonStates: { [gamepadIndex: number]: boolean[] } = {};
   private stickThreshold = 0.5;
-
   constructor(private window: Window) {
     this.window.addEventListener('gamepadconnected', (e: GamepadEvent) => this.onGamepadConnected(e));
     this.window.addEventListener('gamepaddisconnected', (e: GamepadEvent) => this.onGamepadDisconnected(e));
@@ -107,9 +112,11 @@ class GamepadHandler {
 
       if (isPressed && !wasPressed) {
         const event = new GamepadButtonDownEvent(gamepad.index, index);
+
         window.dispatchEvent(event);
       } else if (!isPressed && wasPressed) {
         const event = new GamepadButtonUpEvent(gamepad.index, index);
+
         window.dispatchEvent(event);
       }
 

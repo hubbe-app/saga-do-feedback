@@ -9,8 +9,9 @@ type DefaultButtonProps = {
 
 export const DefaultButton = ({ title, small, disabled }: DefaultButtonProps) => {
   const clickHandler = () => {
-    new Audio('/sounds/start-click.wav').play();
-    
+    if (typeof window !== 'undefined') {
+      new Audio('/sounds/start-click.wav').play();
+    }
   };
 
   return (

@@ -3,6 +3,7 @@ import { useGameContext } from '@/context/gameContext';
 import { powerUps } from '@/libs/gameData';
 import { ActionName } from '@/libs/gamepad';
 import { useComboEffect } from '@/libs/input';
+import { PowerUpType } from '@/types/types';
 import { useEffect, useRef, useState } from 'react';
 
 type ButtonOptionsType = {
@@ -27,10 +28,11 @@ export const PowerUp = () => {
 
   const buttonSelectedRef = useRef<ButtonOptionsType>(buttonOptions[0]);
 
-  const powerUpSelected = powerUps[Math.floor(powerUps.length * Math.random())];
+  const powerUpSelectedRef = useRef<PowerUpType>(powerUps[0]);
 
   useEffect(() => {
     buttonSelectedRef.current = buttonOptions[Math.floor(Math.random() * buttonOptions.length)];
+    powerUpSelectedRef.current = powerUps[Math.floor(powerUps.length * Math.random())];
 
     const handleKeyPress = (event: KeyboardEvent) => {
       if (event.key.toUpperCase() === buttonSelectedRef.current.name) {
@@ -46,12 +48,10 @@ export const PowerUp = () => {
   }, []);
 
   useEffect(() => {
-    if (!sendPowerUp) {
-      return;
-    }
-
     setTimeout(() => {
-      new Audio('/sounds/powerUp-appeared.mp3').play();
+      if (typeof window !== 'undefined') {
+        new Audio('/sounds/powerUp-appeared.mp3').play();
+      }
     }, 2900);
 
     const animation = ['slide-up', 'slide-down', 'slide-left', 'slide-right'];
@@ -90,12 +90,13 @@ export const PowerUp = () => {
   };
 
   const handleClick = () => {
-    new Audio('/sounds/take-powerUp.mp3').play();
-
+    if (typeof window !== 'undefined') {
+      new Audio('/sounds/take-powerUp.mp3').play();
+    }
     const receiver = playerData;
 
-    receiver.adrenaline = [...receiver.adrenaline, powerUpSelected.adrenaline as number];
-    receiver.engagement = [...playerData.engagement, powerUpSelected.engagement as number];
+    receiver.adrenaline = [...receiver.adrenaline, powerUpSelectedRef.current.adrenaline as number];
+    receiver.engagement = [...playerData.engagement, powerUpSelectedRef.current.engagement as number];
 
     setPlayerData(receiver);
     setSendPowerUp(false);
@@ -112,7 +113,7 @@ export const PowerUp = () => {
           style={{ borderColor: buttonSelectedRef.current.bgColor }}
           className={`flex justify-center items-center rounded-full w-40 h-40 border-8 animate-pulse`}
         >
-          <img src={powerUpSelected.img} className='max-h-32' alt='Imagem' />
+          <img src={powerUpSelectedRef.current.img} className='max-h-32' alt='Imagem' />
         </div>
         <button
           style={{ backgroundColor: buttonSelectedRef.current.bgColor }}

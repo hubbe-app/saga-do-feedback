@@ -43,7 +43,7 @@ type PlayerDataType = {
   time: string;
   playerCharacter: CharacterType;
   cpuCharacter: CharacterType;
-  role: 'employee' | 'employer';
+  role: 'employee' | 'employer' | '';
 };
 
 export const GameProvider = ({ children }: GameProviderProps) => {
@@ -81,24 +81,41 @@ export const GameProvider = ({ children }: GameProviderProps) => {
       description: '',
       preview: '',
     },
-    role: 'employee',
+    role: '',
   });
 
   const router = useRouter();
 
   const pathname = usePathname();
-  const audioRef = useRef(new Audio('/sounds/background-music.mp3'));
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     if (pathname === '/objectiveScreen') {
-      audioRef.current.loop = true;
-      audioRef.current.volume = 0.5;
-      audioRef.current.play();
+      if (typeof window !== 'undefined') {
+        audioRef.current = new Audio('/sounds/background-music.mp3');
+
+        audioRef.current.loop = true;
+        audioRef.current.volume = 0.5;
+        audioRef.current?.play();
+      }
     }
-    if (pathname === '/battleResult') {
+    if (pathname === '/battleResult' && audioRef.current) {
       audioRef.current.pause();
     }
   }, [pathname]);
+
+  useEffect(() => {
+    if (timeOver) {
+      audioRef.current?.pause();
+      if (typeof window !== 'undefined') {
+        new Audio('/sounds/bad-result.mp3').play();
+      }
+      setTimeout(() => {
+        setTimeOver(false);
+        router.push('/mainScreen');
+      }, 3000);
+    }
+  }, [timeOver]);
 
   useEffect(() => {
     if (playerData.role === 'employee') {
@@ -118,7 +135,7 @@ export const GameProvider = ({ children }: GameProviderProps) => {
     if (turn === 'thirdTurn' || turn === 'fourthTurn') {
       const luckyNum = Math.random() * 10;
 
-      if (luckyNum > 0) {
+      if (luckyNum > 6) {
         setSendPowerUp(true);
       }
     }
@@ -188,7 +205,7 @@ export const GameProvider = ({ children }: GameProviderProps) => {
         description: '',
         preview: '',
       },
-      role: 'employee',
+      role: '',
     });
     setAverageAdrenaline(0);
     setAverageEngagement(0);

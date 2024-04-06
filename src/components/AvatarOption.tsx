@@ -20,7 +20,9 @@ export const AvatarOption = ({ character, selected }: AvatarOptionProps) => {
     if (isFirstRender) {
       return setIsFirstRender(false);
     }
-    new Audio('/sounds/select-objective.mp3').play();
+    if (typeof window !== 'undefined') {
+      new Audio('/sounds/select-objective.mp3').play();
+    }
   }, [selected]);
 
   const divRef = useRef<HTMLDivElement>(null);
@@ -31,10 +33,10 @@ export const AvatarOption = ({ character, selected }: AvatarOptionProps) => {
     }
   }, [selected]);
 
- 
   const clickHandler = () => {
-    new Audio('/sounds/click-avatar-obj.mp3').play();
-
+    if (typeof window !== 'undefined') {
+      new Audio('/sounds/click-avatar-obj.mp3').play();
+    }
     setPlayerData({ ...playerData, playerCharacter: character });
     router.push('/battlePreview');
   };

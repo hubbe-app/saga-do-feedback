@@ -5,7 +5,6 @@ import { useGameContext } from '@/context/gameContext';
 import { ActionName } from '@/libs/gamepad';
 import { useActionEffect, useAxisEffect } from '@/libs/input';
 import { useCycleValue } from '@/libs/math';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 const ObjectiveScreen = () => {
@@ -19,8 +18,9 @@ const ObjectiveScreen = () => {
   useActionEffect(
     ActionName.Confirm,
     () => {
-      new Audio('/sounds/click-avatar-obj.mp3').play();
-
+      if (typeof window !== 'undefined') {
+        new Audio('/sounds/click-avatar-obj.mp3').play();
+      }
       const receiver = playerData;
       if (selectedIndex === 0) {
         receiver.role = 'employee';
@@ -45,9 +45,7 @@ const ObjectiveScreen = () => {
   return (
     <>
       <div className='absolute -z-20 top-0 left-0 w-screen h-screen bg-slate-950 overflow-hidden'>
-        <Image
-          width={3000}
-          height={2000}
+        <img
           src={'/objective-selection/bg_obj.jpg'}
           className='absolute -z-10 bg-contain bg-center w-screen h-screen opacity-50'
           alt='background'

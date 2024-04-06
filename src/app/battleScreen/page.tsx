@@ -21,21 +21,12 @@ const BattleScreen = () => {
     turn,
   } = useGameContext();
 
-  const router = useRouter();
 
   useEffect(() => {
     findNextQuestion();
   }, [turn]);
 
-  useEffect(() => {
-    if (timeOver) {
-      new Audio('/sounds/bad-result.wav').play();
-      setTimeout(() => {
-        router.push('/mainScreen');
-      }, 3000);
-    }
-  }, [timeOver]);
-
+  
   const findNextQuestion = () => {
     setAverageEngagement(average({ values: playerData.engagement }));
     setAverageAdrenaline(average({ values: playerData.adrenaline }));

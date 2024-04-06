@@ -4,8 +4,7 @@ import { useGameContext } from '@/context/gameContext';
 import { average } from '@/libs/avarege';
 import { Rounded } from '@/libs/fonts';
 import { backgrounds } from '@/libs/gameData';
-import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 export default function RootLayout({
   children,
@@ -35,9 +34,7 @@ export default function RootLayout({
   return (
     <div className='flex flex-col absolute inset-0 overflow-hidden'>
       {selectedBattleBackground && (
-        <Image
-          width={3000}
-          height={2000}
+        <img
           src={selectedBattleBackground}
           className='absolute -z-40 bg-contain bg-center w-screen h-screen brightness-50 opacity-80'
           alt='background'

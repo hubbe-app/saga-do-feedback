@@ -2,7 +2,6 @@
 
 import { Ranking, RegisterForm } from '@/components';
 import { useGameContext } from '@/context/gameContext';
-import Image from 'next/image';
 import { useEffect } from 'react';
 
 const MainScreen = () => {
@@ -11,13 +10,11 @@ const MainScreen = () => {
   useEffect(() => {
     gameReset();
   }, []);
-
+  
   return (
     <>
       <div className='absolute -z-20 top-0 left-0 w-screen h-screen bg-slate-950 overflow-hidden'>
-        <Image
-          width={3000}
-          height={2000}
+        <img
           src={'/bg_inicial.jpg'}
           className='absolute -z-10 bg-contain bg-center w-screen h-screen opacity-50'
           alt='background'

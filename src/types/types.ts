@@ -1,3 +1,5 @@
+'use client'
+
 export type Option = { dialog: string; adrenaline: number; engagement: number };
 
 export type Turn = {

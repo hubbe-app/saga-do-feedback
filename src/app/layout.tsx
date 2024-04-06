@@ -1,12 +1,9 @@
-import type { Metadata } from 'next';
+'use client';
+
 import './globals.css';
 import { Jakarta } from '@/libs/fonts';
 import { GameProvider } from '@/context/gameContext';
-
-export const metadata: Metadata = {
-  title: 'Saga do Feedback',
-  description: 'Jogo desenvolvido pela Hubbe.app',
-};
+import { useEffect, useState } from 'react';
 
 export default function RootLayout({
   children,
@@ -15,9 +12,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <GameProvider>
-        <body className={`${Jakarta.className} absolute w-screen h-screen`} >{children}</body>
-      </GameProvider>
+        <GameProvider>
+          <body className={`${Jakarta.className} absolute w-screen h-screen`}>{children}</body>
+        </GameProvider>
     </html>
   );
 }
