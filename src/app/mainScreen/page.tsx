@@ -10,7 +10,7 @@ const MainScreen = () => {
   useEffect(() => {
     gameReset();
   }, []);
-
+  
   return (
     <>
       <div className='absolute -z-20 top-0 left-0 w-screen h-screen bg-slate-950 overflow-hidden'>

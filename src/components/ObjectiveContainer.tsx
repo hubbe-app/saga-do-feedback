@@ -21,14 +21,17 @@ export const ObjectiveContainer = ({ text, avatar, role, selected }: ObjectiveCo
     if (isFirstRender) {
       return setIsFirstRender(false);
     }
-    new Audio('/sounds/select-objective.mp3').play();
+    if (typeof window !== 'undefined') {
+      new Audio('/sounds/select-objective.mp3').play();
+    }
   }, [selected]);
 
   const divRef = useRef<HTMLDivElement>(null);
 
   const clickHandler = () => {
-    new Audio('/sounds/click-avatar-obj.mp3').play();
-
+    if (typeof window !== 'undefined') {
+      new Audio('/sounds/click-avatar-obj.mp3').play();
+    }
     const receiver = playerData;
     receiver.role = role;
 
@@ -42,7 +45,6 @@ export const ObjectiveContainer = ({ text, avatar, role, selected }: ObjectiveCo
     }
   }, [selected]);
 
- 
   return (
     <div
       onClick={clickHandler}

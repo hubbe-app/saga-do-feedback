@@ -51,7 +51,9 @@ export const PowerUp = () => {
     }
 
     setTimeout(() => {
-      new Audio('/sounds/powerUp-appeared.mp3').play();
+      if (typeof window !== 'undefined') {
+        new Audio('/sounds/powerUp-appeared.mp3').play();
+      }
     }, 2900);
 
     const animation = ['slide-up', 'slide-down', 'slide-left', 'slide-right'];
@@ -90,8 +92,9 @@ export const PowerUp = () => {
   };
 
   const handleClick = () => {
-    new Audio('/sounds/take-powerUp.mp3').play();
-
+    if (typeof window !== 'undefined') {
+      new Audio('/sounds/take-powerUp.mp3').play();
+    }
     const receiver = playerData;
 
     receiver.adrenaline = [...receiver.adrenaline, powerUpSelected.adrenaline as number];

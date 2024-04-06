@@ -4,7 +4,8 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { ActionCallback, ActionName, AxisCallback, InputMapper, InputMapperConfig } from './gamepad';
 
-const inputMapper = new InputMapper(window);
+
+const inputMapper = typeof window !== 'undefined' ? new InputMapper(window) : null;
 
 export const actionMap: InputMapperConfig = {
   actions: {
@@ -102,8 +103,9 @@ export const actionMap: InputMapperConfig = {
     },
   },
 };
-
-inputMapper.loadConfiguration(actionMap);
+if (typeof window !== 'undefined') {
+  inputMapper?.loadConfiguration(actionMap);
+}
 
 export const useKeyPress = (filterKeys?: string[]): Set<string> => {
   const [pressedKeys, setPressedKeys] = useState<Set<string>>(new Set());
@@ -188,20 +190,21 @@ export const useKeyUpEffect = (key: string, callback: () => void) => {
 
 export const useActionEffect = (action: ActionName, callback: ActionCallback, deps: any[] = []) => {
   useEffect(() => {
-    inputMapper.setActionCallback(action, callback);
-    return () => inputMapper.removeActionCallback(action);
+    
+    inputMapper?.setActionCallback(action, callback);
+    return () => inputMapper?.removeActionCallback(action);
   }, deps);
 };
 
 export const useComboEffect = (actions: ActionName[], callback: ActionCallback, deps: any[] = []) => {
   useEffect(() => {
     actions.forEach((action) => {
-      inputMapper.setActionCallback(action, callback);
+      inputMapper?.setActionCallback(action, callback);
     });
 
     return () =>
       actions.forEach((action) => {
-        inputMapper.removeActionCallback(action);
+        inputMapper?.removeActionCallback(action);
       });
   }, deps);
 };
@@ -209,9 +212,9 @@ export const useComboEffect = (actions: ActionName[], callback: ActionCallback, 
 export const useAxisEffect = (axis: number[], callback: AxisCallback) => {
   useEffect(() => {
     axis.forEach((axisIndex) => {
-      inputMapper.setAxisCallback(axisIndex, callback);
+      inputMapper?.setAxisCallback(axisIndex, callback);
     });
-    return () => inputMapper.removeAxisCallback(axis);
+    return () => inputMapper?.removeAxisCallback(axis);
   }, [axis]);
 };
 

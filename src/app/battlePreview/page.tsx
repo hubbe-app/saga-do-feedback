@@ -10,7 +10,9 @@ const BattlePreview = () => {
   const router = useRouter();
 
   useEffect(() => {
-    new Audio('/sounds/battle-preview.mp3').play();
+    if (typeof window !== 'undefined') {
+      new Audio('/sounds/battle-preview.mp3').play();
+    }
     const timer = setTimeout(() => {
       router.push('/battleScreen');
     }, 5000);

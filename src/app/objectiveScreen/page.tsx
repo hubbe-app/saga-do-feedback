@@ -18,8 +18,9 @@ const ObjectiveScreen = () => {
   useActionEffect(
     ActionName.Confirm,
     () => {
-      new Audio('/sounds/click-avatar-obj.mp3').play();
-
+      if (typeof window !== 'undefined') {
+        new Audio('/sounds/click-avatar-obj.mp3').play();
+      }
       const receiver = playerData;
       if (selectedIndex === 0) {
         receiver.role = 'employee';

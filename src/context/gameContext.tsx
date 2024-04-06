@@ -43,7 +43,7 @@ type PlayerDataType = {
   time: string;
   playerCharacter: CharacterType;
   cpuCharacter: CharacterType;
-  role: 'employee' | 'employer';
+  role: 'employee' | 'employer' | '';
 };
 
 export const GameProvider = ({ children }: GameProviderProps) => {
@@ -81,24 +81,43 @@ export const GameProvider = ({ children }: GameProviderProps) => {
       description: '',
       preview: '',
     },
-    role: 'employee',
+    role: '',
   });
 
   const router = useRouter();
 
   const pathname = usePathname();
-  const audioRef = useRef(new Audio('/sounds/background-music.mp3'));
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  if (typeof window !== 'undefined') {
+    audioRef.current = new Audio('/sounds/background-music.mp3');
+  }
 
   useEffect(() => {
-    if (pathname === '/objectiveScreen') {
-      audioRef.current.loop = true;
-      audioRef.current.volume = 0.5;
-      audioRef.current.play();
+    if (audioRef.current) {
+      if (pathname === '/objectiveScreen') {
+        audioRef.current.loop = true;
+        audioRef.current.volume = 0.5;
+        audioRef.current?.play();
+      }
     }
     if (pathname === '/battleResult') {
-      audioRef.current.pause();
+      audioRef.current?.pause();
     }
   }, [pathname]);
+
+  useEffect(() => {
+    if (timeOver) {
+      audioRef.current?.pause();
+      if (typeof window !== 'undefined') {
+        new Audio('/sounds/bad-result.mp3').play();
+      }
+      setTimeout(() => {
+        setTimeOver(false);
+        router.push('/mainScreen');
+      }, 3000);
+    }
+  }, [timeOver]);
 
   useEffect(() => {
     if (playerData.role === 'employee') {
@@ -188,7 +207,7 @@ export const GameProvider = ({ children }: GameProviderProps) => {
         description: '',
         preview: '',
       },
-      role: 'employee',
+      role: '',
     });
     setAverageAdrenaline(0);
     setAverageEngagement(0);

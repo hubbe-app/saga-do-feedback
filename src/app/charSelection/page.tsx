@@ -20,8 +20,9 @@ const CharSelection = () => {
   useActionEffect(
     ActionName.Confirm,
     () => {
-      new Audio('/sounds/click-avatar-obj.mp3').play();
-
+      if (typeof window !== 'undefined') {
+        new Audio('/sounds/click-avatar-obj.mp3').play();
+      }
       if (playerData.role === 'employee') {
         setPlayerData({ ...playerData, playerCharacter: employeeCharacters[selectedIndex] });
       } else {
