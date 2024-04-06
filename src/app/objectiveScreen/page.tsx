@@ -34,14 +34,6 @@ const ObjectiveScreen = () => {
     [selectedIndex]
   );
 
-  useAxisEffect([0], (axis, value) => {
-    if (value > 0.98) {
-      bumpUpIndex();
-    } else if (value < 0.98) {
-      bumpDownIndex();
-    }
-  });
-
   return (
     <>
       <div className='absolute -z-20 top-0 left-0 w-screen h-screen bg-slate-950 overflow-hidden'>
