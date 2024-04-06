@@ -1,12 +1,8 @@
-import type { Metadata } from 'next';
+'use client'
+
 import './globals.css';
 import { Jakarta } from '@/libs/fonts';
 import { GameProvider } from '@/context/gameContext';
-
-export const metadata: Metadata = {
-  title: 'Saga do Feedback',
-  description: 'Jogo desenvolvido pela Hubbe.app',
-};
 
 export default function RootLayout({
   children,

@@ -2,8 +2,6 @@
 
 import { useGameContext } from '@/context/gameContext';
 import { Rounded } from '@/libs/fonts';
-import { ActionName } from '@/libs/gamepad';
-import { useActionEffect } from '@/libs/input';
 import { Option } from '@/types/types';
 import { useEffect, useRef, useState } from 'react';
 

@@ -118,7 +118,7 @@ export const GameProvider = ({ children }: GameProviderProps) => {
     if (turn === 'thirdTurn' || turn === 'fourthTurn') {
       const luckyNum = Math.random() * 10;
 
-      if (luckyNum > 0) {
+      if (luckyNum > 6) {
         setSendPowerUp(true);
       }
     }

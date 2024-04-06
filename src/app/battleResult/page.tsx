@@ -5,7 +5,6 @@ import { Rounded } from '@/libs/fonts';
 import { employeeConclusionMsg, employerConclusionMsg } from '@/libs/gameData';
 import { ActionName } from '@/libs/gamepad';
 import { useActionEffect, useComboEffect } from '@/libs/input';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
@@ -56,9 +55,7 @@ const BattleResult = () => {
   return (
     <>
       {selectedBattleBackground && (
-        <Image
-          width={3000}
-          height={2000}
+        <img
           src={selectedBattleBackground}
           className='absolute -z-40 bg-contain bg-center w-screen h-screen brightness-50 opacity-80'
           alt='background'

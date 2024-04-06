@@ -1,3 +1,5 @@
+'use client'
+
 import { Rounded } from '@/libs/fonts';
 import { CharacterType } from '@/types/types';
 

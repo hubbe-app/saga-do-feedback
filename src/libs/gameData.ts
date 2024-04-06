@@ -1,3 +1,5 @@
+'use client'
+
 import { GameType, PowerUpType, CharacterType } from '../types/types';
 
 export type TurnsType = 'firstTurn' | 'secondTurn' | 'thirdTurn' | 'fourthTurn' | 'fifthTurn' | 'conclusion';

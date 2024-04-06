@@ -2,7 +2,6 @@
 
 import { PreviewFaceOff } from '@/components';
 import { useGameContext } from '@/context/gameContext';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
@@ -21,9 +20,7 @@ const BattlePreview = () => {
 
   return (
     <>
-      <Image
-        width={3000}
-        height={2000}
+      <img
         src={'/battle-preview/bg.jpg'}
         className='absolute -z-10 bg-contain bg-center w-screen h-screen '
         alt='background'
