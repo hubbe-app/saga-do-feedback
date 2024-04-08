@@ -66,11 +66,31 @@ export const RegisterForm = () => {
       if (!formValid) {
         return;
       }
+      new Audio('/sounds/start-click.wav').play();
 
       handleSubmit();
     },
     [formValid]
   );
+
+  useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (event.key.toUpperCase() === 'A') {
+        if (!formValid) {
+          return;
+        }
+        new Audio('/sounds/start-click.wav').play();
+
+        handleSubmit();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyPress);
+    };
+  }, [formValid]);
 
   const handleSubmit = (event?: FormEvent) => {
     event?.preventDefault();
@@ -89,16 +109,16 @@ export const RegisterForm = () => {
     <>
       <form onSubmit={handleSubmit}>
         <div className='flex gap-4'>
-        <DefaultButton disabled={formValid} title='iniciar' />
-        {formValid && (
-        <div className={`${Rounded.className} text-white text-xl `}>
-          Pressione
-          <button className='animate-bounce mt-2 px-4 py-2 text-white font-extrabold text-xl rounded-full bg-gradient-to-r from-green-500 via-green-600 to-green-700 shadow-xl mx-2'>
-            A
-          </button>
-          para iniciar
-        </div>
-      )}
+          <DefaultButton disabled={formValid} title='iniciar' />
+          {formValid && (
+            <div className={`${Rounded.className} text-white text-xl `}>
+              Pressione
+              <button className='animate-bounce mt-2 px-4 py-2 text-white font-extrabold text-xl rounded-full bg-gradient-to-r from-green-500 via-green-600 to-green-700 shadow-xl mx-2'>
+                A
+              </button>
+              para iniciar
+            </div>
+          )}
         </div>
         <div className='mt-6 flex justify-center items-center w-96 bg-gray-900 bg-opacity-80 text-white rounded-3xl px-8 py-4'>
           <div className='flex flex-col gap-2 w-full '>
@@ -145,7 +165,6 @@ export const RegisterForm = () => {
           </div>
         </div>
       </form>
-      
     </>
   );
 };

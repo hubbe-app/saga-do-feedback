@@ -68,6 +68,7 @@ export const PlayerDialogOptions = ({ options, cpuQuestion }: PlayerDialogOption
     [selectedIndex, isOptionsVisible]
   );
 
+
   return (
     <>
       <div className='absolute right-0 bottom-0 '>

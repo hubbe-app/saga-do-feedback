@@ -13,6 +13,7 @@ import { Rounded } from '@/libs/fonts';
 export const BattleCore = () => {
   const { playerData, isOptionsVisible, cpuChoice, turn, setIsOptionsVisible } = useGameContext();
   const [currentOptions, setCurrentOptions] = useState<Option[]>([]);
+  const [gameStarted, setGameStarted] = useState(false);
 
   const router = useRouter();
 
@@ -38,7 +39,7 @@ export const BattleCore = () => {
         return;
       }
       new Audio('/sounds/click-answer.mp3').play();
-
+      setGameStarted(true);
       setIsOptionsVisible(true);
     },
     [turn]
@@ -102,6 +103,17 @@ export const BattleCore = () => {
             options={currentOptions ? currentOptions : []}
           />
         </div>
+      )}
+
+      {gameStarted && (
+        <>
+          <div className=' absolute right-40 bottom-12 min-w-32 w-fit min-h-10 px-8 py-0.5 bg-blue-600 z-20 rounded-xl justify-center items-center flex text-white text-2xl font-extrabold'>
+            {playerData.role === 'employee' ? 'Colaborador' : 'Gestor'}
+          </div>
+          <div className=' absolute left-40 bottom-12 min-w-32 w-fit min-h-10 px-8 py-0.5 bg-red-600 z-20 rounded-xl justify-center items-center flex text-white text-2xl font-extrabold'>
+            {playerData.role === 'employee' ? 'Gestor' : 'Colaborador'}
+          </div>
+        </>
       )}
     </main>
   );

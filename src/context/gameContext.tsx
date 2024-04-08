@@ -117,20 +117,7 @@ export const GameProvider = ({ children }: GameProviderProps) => {
     }
   }, [timeOver]);
 
-  useEffect(() => {
-    if (playerData.role === 'employee') {
-      setPlayerData({
-        ...playerData,
-        cpuCharacter: employerCharacters[Math.floor(Math.random() * employerCharacters.length)],
-      });
-    } else {
-      setPlayerData({
-        ...playerData,
-        cpuCharacter: employeeCharacters[Math.floor(Math.random() * employeeCharacters.length)],
-      });
-    }
-  }, [playerData.role]);
-
+ 
   useEffect(() => {
     if (turn === 'thirdTurn' || turn === 'fourthTurn') {
       const luckyNum = Math.random() * 10;

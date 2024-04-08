@@ -1,6 +1,7 @@
 'use client';
 import { useGameContext } from '@/context/gameContext';
 import { Rounded } from '@/libs/fonts';
+import { employeeCharacters, employerCharacters } from '@/libs/gameData';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
@@ -28,17 +29,7 @@ export const ObjectiveContainer = ({ text, avatar, role, selected }: ObjectiveCo
 
   const divRef = useRef<HTMLDivElement>(null);
 
-  const clickHandler = () => {
-    if (typeof window !== 'undefined') {
-      new Audio('/sounds/click-avatar-obj.mp3').play();
-    }
-    const receiver = playerData;
-    receiver.role = role;
-
-    setPlayerData(receiver);
-    router.push('/charSelection');
-  };
-
+  
   useEffect(() => {
     if (selected && divRef.current) {
       divRef.current.focus();
@@ -47,7 +38,6 @@ export const ObjectiveContainer = ({ text, avatar, role, selected }: ObjectiveCo
 
   return (
     <div
-      onClick={clickHandler}
       ref={divRef}
       autoFocus={true}
       className={`

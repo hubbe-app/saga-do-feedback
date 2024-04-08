@@ -9,13 +9,7 @@ import { Option } from '@/types/types';
 import { useEffect } from 'react';
 
 const BattleScreen = () => {
-  const {
-    playerData,
-    timeOver,
-    averageAdrenaline,
-    setCpuChoice,
-    turn,
-  } = useGameContext();
+  const { playerData, timeOver, averageAdrenaline, setCpuChoice, turn } = useGameContext();
 
   useEffect(() => {
     findNextQuestion();
@@ -38,7 +32,7 @@ const BattleScreen = () => {
             const diffAdrenalineA = Math.abs(averageAdrenaline - a.adrenaline);
             const diffAdrenalineB = Math.abs(averageAdrenaline - b.adrenaline);
 
-            return diffAdrenalineA - diffAdrenalineB;
+            return diffAdrenalineB - diffAdrenalineA;
           });
         }
       } else {

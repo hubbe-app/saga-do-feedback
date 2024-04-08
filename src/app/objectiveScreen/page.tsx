@@ -2,6 +2,7 @@
 
 import { ObjectiveContainer } from '@/components';
 import { useGameContext } from '@/context/gameContext';
+import { employeeCharacters, employerCharacters } from '@/libs/gameData';
 import { ActionName } from '@/libs/gamepad';
 import { useActionEffect } from '@/libs/input';
 import { useCycleValue } from '@/libs/math';
@@ -69,8 +70,10 @@ const ObjectiveScreen = () => {
       const receiver = playerData;
       if (selectedIndex === 0) {
         receiver.role = 'employee';
+        receiver.cpuCharacter = employerCharacters[Math.floor(Math.random() * employerCharacters.length)]
       } else {
         receiver.role = 'employer';
+        receiver.cpuCharacter = employeeCharacters[Math.floor(Math.random() * employeeCharacters.length)]
       }
 
       setPlayerData(receiver);
