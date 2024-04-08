@@ -19,7 +19,8 @@ export default function RootLayout({
     playerData,
     selectedBattleBackground,
     setSelectedBattleBackground,
-    sendPowerUp
+    sendPowerUp,
+    turn,
   } = useGameContext();
 
   useEffect(() => {
@@ -27,9 +28,12 @@ export default function RootLayout({
   }, []);
 
   useEffect(() => {
+    if (turn === 'firstTurn') {
+      return;
+    }
     setAverageEngagement(average({ values: playerData.engagement }));
     setAverageAdrenaline(average({ values: playerData.adrenaline }));
-  }, [playerData.adrenaline, playerData.engagement]);
+  }, [playerData.engagement, playerData.adrenaline]);
 
   return (
     <div className='flex flex-col absolute inset-0 overflow-hidden'>

@@ -10,6 +10,7 @@ type ButtonOptionsType = {
   button: string;
   bgColor: string;
   name: string;
+  borderColor: string;
 };
 
 export const PowerUp = () => {
@@ -21,9 +22,24 @@ export const PowerUp = () => {
   const { sendPowerUp, setSendPowerUp, playerData, setPlayerData } = useGameContext();
 
   const buttonOptions = [
-    { button: ActionName.ButtonX, bgColor: '#1E88E5', name: 'X' },
-    { button: ActionName.ButtonY, bgColor: '#FFCF00', name: 'Y' },
-    { button: ActionName.ButtonB, bgColor: '#E53935', name: 'B' },
+    {
+      button: ActionName.ButtonX,
+      borderColor: '#1E88E5',
+      bgColor: 'gradient-to-r from-blue-400 via-blue-500 to-blue-600',
+      name: 'X',
+    },
+    {
+      button: ActionName.ButtonY,
+      borderColor: '#FFCF00',
+      bgColor: 'gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600',
+      name: 'Y',
+    },
+    {
+      button: ActionName.ButtonB,
+      borderColor: '#E53935',
+      bgColor: 'gradient-to-r from-red-400 via-red-500 to-red-600',
+      name: 'B',
+    },
   ];
 
   const buttonSelectedRef = useRef<ButtonOptionsType>(buttonOptions[0]);
@@ -107,19 +123,18 @@ export const PowerUp = () => {
       <div
         style={{ top: position.startingPositionY, left: position.startingPositionX }}
         onAnimationEnd={() => setSendPowerUp(false)}
-        className={`absolute z-50 flex flex-col items-center bg-yell overflow-hidden animate-${position.direction}`}
+        className={`absolute z-50 flex flex-col items-center overflow-hidden animate-${position.direction}`}
       >
         <div
-          style={{ borderColor: buttonSelectedRef.current.bgColor }}
+          style={{ borderColor: buttonSelectedRef.current.borderColor }}
           className={`flex justify-center items-center rounded-full w-40 h-40 border-8 animate-pulse`}
         >
           <img src={powerUpSelectedRef.current.img} className='max-h-32' alt='Imagem' />
         </div>
         <button
-          style={{ backgroundColor: buttonSelectedRef.current.bgColor }}
           onClick={handleClick}
           onKeyDown={handleKeyPress}
-          className={`animate-bounce mt-2 px-4 py-2 text-white font-extrabold text-xl rounded-full`}
+          className={`bg-${buttonSelectedRef.current.bgColor} animate-bounce mt-2 px-4 py-2 text-white font-extrabold text-xl rounded-full`}
         >
           {buttonSelectedRef.current.name}
         </button>

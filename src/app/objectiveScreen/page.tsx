@@ -3,14 +3,59 @@
 import { ObjectiveContainer } from '@/components';
 import { useGameContext } from '@/context/gameContext';
 import { ActionName } from '@/libs/gamepad';
-import { useActionEffect, useAxisEffect } from '@/libs/input';
+import { useActionEffect } from '@/libs/input';
 import { useCycleValue } from '@/libs/math';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 const ObjectiveScreen = () => {
-  const { playerData, setPlayerData } = useGameContext();
+  const {
+    playerData,
+    setPlayerData,
+    setAverageAdrenaline,
+    setAverageEngagement,
+    setTurn,
+    setCpuChoice,
+    setIsOptionsVisible,
+  } = useGameContext();
   const router = useRouter();
   const [selectedIndex, bumpUpIndex, bumpDownIndex] = useCycleValue(0, 0, 1);
+
+  useEffect(() => {
+    setTurn('firstTurn');
+    setIsOptionsVisible(false);
+    setAverageAdrenaline(0);
+    setAverageEngagement(0);
+    setCpuChoice({
+      dialog: '',
+      adrenaline: 100,
+      engagement: 100,
+    });
+    setPlayerData({
+      ...playerData,
+      score: '',
+      engagement: [],
+      adrenaline: [],
+      time: '',
+      cpuCharacter: {
+        avatar: '',
+        fullBody: '',
+        fullBodyOn: '',
+        name: '',
+        description: '',
+        preview: '',
+      },
+      playerCharacter: {
+        avatar: '',
+        fullBody: '',
+        fullBodyOn: '',
+        name: '',
+        description: '',
+        preview: '',
+      },
+      role: '',
+    });
+  }, []);
 
   useActionEffect(ActionName.MoveRight, () => bumpUpIndex(), [selectedIndex]);
   useActionEffect(ActionName.MoveLeft, () => bumpDownIndex(), [selectedIndex]);
@@ -33,14 +78,6 @@ const ObjectiveScreen = () => {
     },
     [selectedIndex]
   );
-
-  useAxisEffect([0], (axis, value) => {
-    if (value > 0.98) {
-      bumpUpIndex();
-    } else if (value < 0.98) {
-      bumpDownIndex();
-    }
-  });
 
   return (
     <>

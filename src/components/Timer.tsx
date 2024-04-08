@@ -9,11 +9,11 @@ export const Timer = () => {
   const { setPlayerData, playerData, setTimeOver, turn } = useGameContext();
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  if (typeof window !== 'undefined') {
-    audioRef.current = new Audio('/sounds/chronometer-ending.mp3');
-  }
-
+  
   useEffect(() => {
+    if (typeof window !== 'undefined' && !audioRef.current) {
+      audioRef.current = new Audio('/sounds/chronometer-ending.mp3');
+    }
     if (time === 0 && turn !== 'conclusion') {
       setTimeOver(true);
       const receiver = { ...playerData, adrenaline: [...playerData.adrenaline, 100], time: '0:00' };

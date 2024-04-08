@@ -40,18 +40,18 @@ export const employeeGame: GameType = {
     employer: [
       {
         dialog: 'O que te motiva a buscar essa promoção?',
-        adrenaline: 6 + randomResult,
-        engagement: 8 + randomResult,
+        adrenaline: 6,
+        engagement: 8,
       },
       {
         dialog: 'Claro, estou disponível! O que gostaria de discutir?',
-        adrenaline: 1 + randomResult,
-        engagement: 10 + randomResult,
+        adrenaline: 1,
+        engagement: 10,
       },
       {
         dialog: 'Por que você acha que merece?',
-        adrenaline: 10 + randomResult,
-        engagement: 1 + randomResult,
+        adrenaline: 10,
+        engagement: 1,
       },
     ],
     employee: [
@@ -76,14 +76,14 @@ export const employeeGame: GameType = {
     employer: [
       {
         dialog: 'O que você acha que seria necessário em termos de desenvolvimento profissional?',
-        adrenaline: 6 + randomResult,
-        engagement: 4 + randomResult,
+        adrenaline: 6,
+        engagement: 4,
       },
       {
         dialog:
           'Entendo, mas para assumir um novo cargo precisamos abordar alguns pontos a serem melhorados. O que sugere?',
-        adrenaline: 9 + randomResult,
-        engagement: 2 + randomResult,
+        adrenaline: 9,
+        engagement: 2,
       },
     ],
     employee: [
@@ -108,15 +108,15 @@ export const employeeGame: GameType = {
     employer: [
       {
         dialog: 'Vamos trabalhar juntos! Que tal definirmos um plano de desenvolvimento para os próximos meses?',
-        adrenaline: 7 + randomResult,
-        engagement: 3 + randomResult,
+        adrenaline: 7,
+        engagement: 3,
       },
 
       {
         dialog:
           'É importante desenvolver novas habilidades para assumir mais responsabilidades! Que tal definirmos um plano de desenvolvimento?',
-        adrenaline: 8 + randomResult,
-        engagement: 2 + randomResult,
+        adrenaline: 8,
+        engagement: 2,
       },
     ],
     employee: [
@@ -144,14 +144,14 @@ export const employeeGame: GameType = {
       {
         dialog:
           'Estou aqui para lhe orientar e apoiar na sua evolução, mas sem a sua colaboração não posso ajudá-lo. Gostaria de participar das reuniões de gestão?',
-        adrenaline: 10 + randomResult,
-        engagement: 1 + randomResult,
+        adrenaline: 10,
+        engagement: 1,
       },
       {
         dialog:
           'O que acha de realizar um curso sobre liderança, e participar ativamente de reuniões com a alta gestão?',
-        adrenaline: 8 + randomResult,
-        engagement: 3 + randomResult,
+        adrenaline: 8,
+        engagement: 3,
       },
     ],
     employee: [
@@ -218,18 +218,18 @@ export const employerGame: GameType = {
     employee: [
       {
         dialog: 'Claro, já preparei alguns pontos para conversarmos!',
-        adrenaline: 1 + randomResult,
-        engagement: 10 + randomResult,
+        adrenaline: 1,
+        engagement: 10,
       },
       {
         dialog: 'Claro, estou disponível para conversarmos!',
-        adrenaline: 6 + randomResult,
-        engagement: 8 + randomResult,
+        adrenaline: 6,
+        engagement: 8,
       },
       {
         dialog: 'Bom dia! Sim! Não estava esperando por isso nesse momento!',
-        adrenaline: 10 + randomResult,
-        engagement: 1 + randomResult,
+        adrenaline: 10,
+        engagement: 1,
       },
     ],
     employer: [
@@ -257,14 +257,14 @@ export const employerGame: GameType = {
       {
         dialog:
           'Reconheço, estou sobrecarregado com várias responsabilidades ao mesmo tempo, mas estou trabalhando para melhorar.',
-        adrenaline: 3 + randomResult,
-        engagement: 7 + randomResult,
+        adrenaline: 3,
+        engagement: 7,
       },
       {
         dialog:
           'Acredito que precisamos revisar nossos processos para garantir que todos estejam alinhados e possamos melhorar juntos.',
-        adrenaline: 7 + randomResult,
-        engagement: 4 + randomResult,
+        adrenaline: 7,
+        engagement: 4,
       },
     ],
     employer: [
@@ -291,8 +291,8 @@ export const employerGame: GameType = {
       {
         dialog:
           'Acredito que poderia passar o processo X para a nova colega, isso me ajudaria a focar nas principais tarefas. O que acha?',
-        adrenaline: 7 + randomResult,
-        engagement: 7 + randomResult,
+        adrenaline: 7,
+        engagement: 7,
       },
     ],
     employer: [
@@ -320,13 +320,13 @@ export const employerGame: GameType = {
     employee: [
       {
         dialog: 'Ok, obrigado, mas gostaria que você pudesse me orientar melhor nesse processo.',
-        adrenaline: 5 + randomResult,
-        engagement: 5 + randomResult,
+        adrenaline: 5,
+        engagement: 5,
       },
       {
         dialog: 'Claro, deixe comigo! Você me acompanha nesse processo?',
-        adrenaline: 2 + randomResult,
-        engagement: 8 + randomResult,
+        adrenaline: 2,
+        engagement: 8,
       },
     ],
     employer: [
