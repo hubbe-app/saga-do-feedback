@@ -4,7 +4,7 @@ import { useGameContext } from '@/context/gameContext';
 import { Rounded } from '@/libs/fonts';
 import { employeeConclusionMsg, employerConclusionMsg } from '@/libs/gameData';
 import { ActionName } from '@/libs/gamepad';
-import { useActionEffect } from '@/libs/input';
+import { useActionEffect, useComboEffect } from '@/libs/input';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
@@ -12,6 +12,10 @@ const BattleResult = () => {
   const { selectedBattleBackground, cpuChoice, playerData } = useGameContext();
 
   const router = useRouter();
+
+  useComboEffect([ActionName.ButtonY], (action) => {
+    redirectHandler();
+  });
 
   useActionEffect(
     ActionName.Confirm,
@@ -25,6 +29,9 @@ const BattleResult = () => {
     const handleKeyPress = (event: KeyboardEvent) => {
       if (event.key.toUpperCase() === 'A') {
         clickHandler();
+      }
+      if (event.key.toUpperCase() === 'Y') {
+        redirectHandler();
       }
     };
 
@@ -48,6 +55,10 @@ const BattleResult = () => {
       }
     }
   }, [cpuChoice]);
+
+  const redirectHandler = () => {
+    router.push('/objectiveScreen');
+  };
 
   const clickHandler = () => {
     if (typeof window !== 'undefined') {
@@ -82,7 +93,7 @@ const BattleResult = () => {
             {cpuChoice.engagement === 0 && employeeConclusionMsg.badResult.mainMessage}
           </div>
         ) : (
-          <div className={`w-1/2 mt-10 ml-28 text-white text-[52px] font-extrabold `}>
+          <div className={`w-1/2 mt-20 ml-28 text-white text-[52px] font-extrabold `}>
             {cpuChoice.engagement === 10 && employerConclusionMsg.goodResult.mainMessage}
             {cpuChoice.engagement === 5 && employerConclusionMsg.neutralResult.mainMessage}
             {cpuChoice.engagement === 0 && employerConclusionMsg.badResult.mainMessage}
@@ -96,11 +107,21 @@ const BattleResult = () => {
           alt='character preview'
         />
 
+        <div className='absolute bottom-[110px] left-[50%] -translate-x-[50%] text-white text-xl'>
+          Pressione
+          <button
+            onClick={redirectHandler}
+            className='animate-bounce mt-2 px-4 py-2 text-white font-extrabold text-xl rounded-full bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 shadow-xl mx-2'
+          >
+            Y
+          </button>
+          para jogar novamente
+        </div>
         <div className='absolute bottom-10 left-[50%] -translate-x-[50%] text-white text-xl'>
           Pressione
           <button
             onClick={clickHandler}
-            className='animate-bounce mt-2 px-4 py-2 text-white font-extrabold text-xl rounded-full bg-green-700 shadow-xl mx-2'
+            className='animate-bounce mt-2 px-4 py-2 text-white font-extrabold text-xl rounded-full bg-gradient-to-r from-green-500 via-green-600 to-green-700 shadow-xl mx-2'
           >
             A
           </button>

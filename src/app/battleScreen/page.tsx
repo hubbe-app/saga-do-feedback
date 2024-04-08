@@ -6,7 +6,6 @@ import { average } from '@/libs/avarege';
 import { Rounded } from '@/libs/fonts';
 import { TurnsType, employeeGame, employerGame } from '@/libs/gameData';
 import { Option } from '@/types/types';
-import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 const BattleScreen = () => {
@@ -14,23 +13,15 @@ const BattleScreen = () => {
     playerData,
     timeOver,
     averageAdrenaline,
-    setAverageAdrenaline,
-    averageEngagement,
-    setAverageEngagement,
     setCpuChoice,
     turn,
   } = useGameContext();
-
 
   useEffect(() => {
     findNextQuestion();
   }, [turn]);
 
-  
   const findNextQuestion = () => {
-    setAverageEngagement(average({ values: playerData.engagement }));
-    setAverageAdrenaline(average({ values: playerData.adrenaline }));
-
     let options: Option[] | undefined = [];
 
     if (playerData.role === 'employee') {
@@ -39,26 +30,31 @@ const BattleScreen = () => {
       options = employerGame[turn as TurnsType].employee;
     }
     if (options) {
-      options.sort((a, b) => {
-        const diffEngagementA = Math.abs(averageEngagement - a.engagement);
-        const diffEngagementB = Math.abs(averageEngagement - b.engagement);
-        const diffAdrenalineA = Math.abs(averageAdrenaline - a.adrenaline);
-        const diffAdrenalineB = Math.abs(averageAdrenaline - b.adrenaline);
-
-        if (averageAdrenaline > averageEngagement) {
-          if (diffAdrenalineA !== diffAdrenalineB) {
-            return diffAdrenalineA - diffAdrenalineB;
-          } else {
-            return diffEngagementA - diffEngagementB;
-          }
+      if (average({ values: playerData.adrenaline }) > average({ values: playerData.engagement })) {
+        if (turn === 'conclusion') {
+          options.sort((a, b) => b.adrenaline - a.adrenaline);
         } else {
+          options.sort((a, b) => {
+            const diffAdrenalineA = Math.abs(averageAdrenaline - a.adrenaline);
+            const diffAdrenalineB = Math.abs(averageAdrenaline - b.adrenaline);
+
+            return diffAdrenalineA - diffAdrenalineB;
+          });
+        }
+      } else {
+        options.sort((a, b) => {
+          const diffEngagementA = Math.abs(average({ values: playerData.engagement }) - a.engagement);
+          const diffEngagementB = Math.abs(average({ values: playerData.engagement }) - b.engagement);
+          const diffAdrenalineA = Math.abs(average({ values: playerData.adrenaline }) - a.adrenaline);
+          const diffAdrenalineB = Math.abs(average({ values: playerData.adrenaline }) - b.adrenaline);
+
           if (diffEngagementA !== diffEngagementB) {
             return diffEngagementA - diffEngagementB;
           } else {
             return diffAdrenalineA - diffAdrenalineB;
           }
-        }
-      });
+        });
+      }
 
       const nextQuestion = options[0];
       setCpuChoice(nextQuestion);

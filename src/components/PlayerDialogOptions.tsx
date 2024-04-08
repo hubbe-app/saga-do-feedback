@@ -65,7 +65,7 @@ export const PlayerDialogOptions = ({ options, cpuQuestion }: PlayerDialogOption
       nextTurn();
       setIsOptionsVisible(false);
     },
-    [selectedIndex, randomizedOptions, isOptionsVisible]
+    [selectedIndex, isOptionsVisible]
   );
 
   return (
