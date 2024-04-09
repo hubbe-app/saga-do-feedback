@@ -80,7 +80,7 @@ export const BattleCore = () => {
           <div className='absolute right-0 bottom-0 '>
             <img src={playerData.playerCharacter.fullBody} alt='character' />
           </div>
-          <div className='absolute left-0 bottom-0 '>
+          <div className={`${playerData.role === 'employer' && 'transform scale-x-[-1]'} absolute left-0 bottom-0 `}>
             <img src={playerData.cpuCharacter.fullBodyOn} alt='character' />
           </div>
           <DialogBallon cpuName={playerData.cpuCharacter.name} content={cpuChoice?.dialog as string} />

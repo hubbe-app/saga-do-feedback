@@ -35,7 +35,7 @@ type GameProviderProps = {
   children: ReactNode;
 };
 
-type PlayerDataType = {
+export type PlayerDataType = {
   name: string;
   score: string;
   engagement: number[];

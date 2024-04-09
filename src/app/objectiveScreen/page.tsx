@@ -1,7 +1,7 @@
 'use client';
 
 import { ObjectiveContainer } from '@/components';
-import { useGameContext } from '@/context/gameContext';
+import { PlayerDataType, useGameContext } from '@/context/gameContext';
 import { employeeCharacters, employerCharacters } from '@/libs/gameData';
 import { ActionName } from '@/libs/gamepad';
 import { useActionEffect } from '@/libs/input';
@@ -67,16 +67,47 @@ const ObjectiveScreen = () => {
       if (typeof window !== 'undefined') {
         new Audio('/sounds/click-avatar-obj.mp3').play();
       }
-      const receiver = playerData;
+
       if (selectedIndex === 0) {
-        receiver.role = 'employee';
-        receiver.cpuCharacter = employerCharacters[Math.floor(Math.random() * employerCharacters.length)]
+        const receiver: PlayerDataType = {
+          name: playerData.name,
+          score: '',
+          engagement: [],
+          adrenaline: [],
+          time: '',
+          cpuCharacter: employerCharacters[Math.floor(Math.random() * employerCharacters.length)],
+          playerCharacter: {
+            avatar: '',
+            fullBody: '',
+            fullBodyOn: '',
+            name: '',
+            description: '',
+            preview: '',
+          },
+          role: 'employee',
+        };
+        setPlayerData(receiver);
       } else {
-        receiver.role = 'employer';
-        receiver.cpuCharacter = employeeCharacters[Math.floor(Math.random() * employeeCharacters.length)]
+        const receiver: PlayerDataType = {
+          name: playerData.name,
+          score: '',
+          engagement: [],
+          adrenaline: [],
+          time: '',
+          cpuCharacter: employeeCharacters[Math.floor(Math.random() * employeeCharacters.length)],
+          playerCharacter: {
+            avatar: '',
+            fullBody: '',
+            fullBodyOn: '',
+            name: '',
+            description: '',
+            preview: '',
+          },
+          role: 'employer',
+        };
+        setPlayerData(receiver);
       }
 
-      setPlayerData(receiver);
       router.push('/charSelection');
     },
     [selectedIndex]

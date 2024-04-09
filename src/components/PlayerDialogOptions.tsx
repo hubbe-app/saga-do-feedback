@@ -74,7 +74,7 @@ export const PlayerDialogOptions = ({ options, cpuQuestion }: PlayerDialogOption
       <div className='absolute right-0 bottom-0 '>
         <img src={playerData.playerCharacter.fullBodyOn} alt='character' />
       </div>
-      <div className='absolute left-0 bottom-0 '>
+      <div className={`${playerData.role === 'employer' && 'transform scale-x-[-1]'} absolute left-0 bottom-0`}>
         <img src={playerData.cpuCharacter.fullBody} alt='character' />
       </div>
       <div className='flex justify-center opacity-60 scale-75 h-full'>
